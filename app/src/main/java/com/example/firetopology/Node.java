@@ -8,8 +8,12 @@ public class Node {
     private String applicationVersion;
     private String modePortA;
     private String modePortB;
+    private String NUPA;
+    private String NUPB;
+    private String USBA;
+    private String USBB;
 
-    public Node(String mac,String ip, String neighbour_A, String neighbour_B, String application_version, String modeA, String modeB) {
+    public Node(String mac,String ip, String neighbour_A, String neighbour_B, String application_version, String modeA, String modeB, String nupa, String nupb, String usba,  String usbb) {
         this.MAC = mac;
         this.IP = ip;
         this.MAC_Neighbour_A = neighbour_A;
@@ -17,6 +21,10 @@ public class Node {
         this.applicationVersion = application_version.split(" ")[0];
         this.modePortA = modeA;
         this.modePortB = modeB;
+        this.NUPA = nupa;
+        this.NUPB = nupb;
+        this.USBA = usba;
+        this.USBB = usbb;
     }
 
     public String getMAC() {
@@ -39,5 +47,17 @@ public class Node {
     }
     public String getModePortB() {
         return this.modePortB;
+    }
+    public String getNUPA(){
+        return this.NUPA;
+    }
+    public String getNUPB(){
+        return this.NUPB;
+    }
+    public String getUSBA() {
+        return this.USBA;
+    }
+    public String getUSBB() {
+        return this.USBB;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.firetopology;
 
+<<<<<<< HEAD
 import android.content.Context;
 import android.os.Bundle;
 import android.util.AttributeSet;
@@ -47,18 +48,24 @@ public class MainActivity extends AppCompatActivity {
         K getKey(V v) {
             return inversedMap.get(v);
         }
+=======
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.*;
+import java.io.*;
+import java.nio.charset.Charset;
+import java.util.*;
+import com.opencsv.CSVReader;
+
+public class MainActivity extends AppCompatActivity{
+    static void printGraph(ArrayList<ArrayList<Integer>> adj) {
+        for(int i=0;i<adj.size();i++) {
+            Log.d("Vertex", Integer.toString(i));
+            for(int j=0; j < adj.get(i).size();j++) {
+                Log.d("Vertices","->"+adj.get(i).get(j));
+            }
+>>>>>>> 2a54c2ed35b1e0b9efd1dac10d1a1f5e9922ea8d
     }
-
-    static ArrayList<Integer> order = new ArrayList<>();
-
-    static void dfs(boolean[] visited, int v, ArrayList<ArrayList<Integer>> graph) {
-        visited[v] = true;
-        Log.d("Node", String.valueOf(v));
-        order.add(v);
-        for (Integer i : graph.get(v)) {
-            if (i != null && !visited[i])
-                dfs(visited, i, graph);
-        }
     }
 
     ArrayList<Node> nodes = new ArrayList<Node>();
@@ -66,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+<<<<<<< HEAD
 //        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
 
 
@@ -88,9 +96,13 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
+=======
+        Log.d("EAF","AFdv");
+>>>>>>> 2a54c2ed35b1e0b9efd1dac10d1a1f5e9922ea8d
         try {
+            Log.d("2","xyz2");
             InputStream is = getResources().openRawResource(R.raw.book1);
-            BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
+            BufferedReader br = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
             String line = br.readLine();
             ArrayList<String> nodes = new ArrayList<>();
             int v = 0;
@@ -99,19 +111,22 @@ public class MainActivity extends AppCompatActivity {
                 v++;
             }
             ArrayList<ArrayList<Integer>> graph = new ArrayList<>(v);
-            BiMap<String, Integer> map = new BiMap<>();
-            for (int i = 0; i < v; i++) {
-                graph.add(new ArrayList<>());
+            HashMap<String,Integer> map = new HashMap<>();
+            for(int i=0; i<v; i++) {
+                graph.add(new ArrayList<Integer>());
                 map.put(nodes.get(i).split(",")[0], i);
             }
-            int start = -1;
-            for (int i = 0; i < v; i++) {
+
+            for(int i=0; i<v;i++) {
                 String[] array = nodes.get(i).split(",");
-                if ((map.get(array[7]) == null || (map.get(array[8]) == null)) && start == -1)
-                    start = map.get(array[0]);
+//                for (int ii =0; ii<array.length;ii++) {
+//                    Log.d("err2",array[ii]);
+//                }
+
                 graph.get(map.get(array[0])).add(map.get(array[7]));
                 graph.get(map.get(array[0])).add(map.get(array[8]));
             }
+<<<<<<< HEAD
             start = max(start, 0);
             boolean[] visited = new boolean[v];
 //            for(boolean i: visited)
@@ -130,9 +145,17 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             Log.d("Error", e.toString());
             e.printStackTrace();
+=======
+            printGraph(graph);
+        }
+        catch (Exception e) {
+            Log.d("err",e.toString());
+>>>>>>> 2a54c2ed35b1e0b9efd1dac10d1a1f5e9922ea8d
         }
 
     }
+
+
 
 
 }

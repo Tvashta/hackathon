@@ -13,6 +13,7 @@ import android.util.Pair;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,7 +38,9 @@ import static java.lang.Math.max;
 public class MainActivity extends AppCompatActivity {
     static ArrayList<String> nodes = new ArrayList<>();
     static ArrayList<Node> nodesList = new ArrayList<Node>();
-
+    View pos1, pos2;
+    int p1,p2;
+    Button hops;
     public static class BiMap<K, V> {
         HashMap<K, V> map = new HashMap<>();
         HashMap<V, K> inversedMap = new HashMap<>();
@@ -99,8 +102,14 @@ public class MainActivity extends AppCompatActivity {
         layoutManager.setFlexWrap(FlexWrap.WRAP);
         layoutManager.setJustifyContent(JustifyContent.SPACE_AROUND);
         recyclerView.setLayoutManager(layoutManager);
-
-
+        hops=findViewById(R.id.hops);
+        hops.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, p1+","+p2,
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
         try {
             InputStream is = getResources().openRawResource(R.raw.book1);
             BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
@@ -161,6 +170,54 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onLongClick(View view, int position) {
+                    if(pos1==view)
+                    {
+                        pos1.setPadding(0,0,0,0);
+                        if(pos2!=null)
+                        {
+                            pos1=pos2;
+                            p1=p2;
+                            pos2=null;
+                            p2=-1;
+                        }
+                    }
+                    else if(pos2==view){
+                        pos2.setPadding(0,0,0,0);
+                        pos2=null;
+                        p2=-1;
+                    }
+                    else{
+                        view.setPadding(10, 10, 10, 10);
+                        if (pos1 == null)
+                        {
+                            pos1 = view;
+                            p1=position;
+                        }
+                        else if (pos2 == null){
+                            pos2 = view;
+                            p2=position;
+                        }
+                        else {
+                            pos1.setPadding(0, 0, 0, 0);
+                            pos1 = pos2;
+                            pos2 = view;
+                            p1=p2;
+                            p2=position;
+                        }
+
+                    }
+                    if(pos1==pos2)
+                    {
+                        pos1.setPadding(0,0,0,0);
+                        pos2.setPadding(0,0,0,0);
+                        pos1=null;
+                        pos2=null;
+                        p1=p2=-1;
+                    }
+                    if(pos1!=null&&pos2!=null)
+                        hops.setVisibility(View.VISIBLE);
+                    else
+                        hops.setVisibility(View.INVISIBLE);
                     Toast.makeText(MainActivity.this, "Long press on position :" + position,
                             Toast.LENGTH_LONG).show();
                 }

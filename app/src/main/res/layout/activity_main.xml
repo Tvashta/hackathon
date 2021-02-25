@@ -7,12 +7,21 @@
     android:id="@+id/constrLayout"
     tools:context=".MainActivity">
 
-
+    <Button
+        android:text="Find hops"
+        android:id="@+id/hops"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"
         android:layout_width="396dp"
         android:layout_height="701dp"
         android:background="@color/white"
+        android:layout_marginTop="60dp"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

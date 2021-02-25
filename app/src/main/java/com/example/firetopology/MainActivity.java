@@ -16,6 +16,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -263,8 +264,10 @@ public class MainActivity extends AppCompatActivity {
                 xEnd = arrayList.get(((indexOfNa.intValue())%(arrayList.size())));
                 yStart = rowWidth*(1+((int)i/3));
                 yEnd = rowWidth*(1+((int)(indexOfNa.intValue())/3));
-
-                canvas.drawLine(xStart, yStart, xEnd,yEnd, myPaint);
+                View view = new View(this);
+                LinearLayout.LayoutParams lpView = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1); // --> horizontal
+                view.setLayoutParams(lpView);
+                view.setBackgroundColor(Color.DKGRAY);
             }
 
             if(indexOfNb != null) {

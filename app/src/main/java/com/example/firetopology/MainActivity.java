@@ -100,8 +100,6 @@ public class MainActivity extends AppCompatActivity {
                     queue.add(n);
                 }
             }
-
-
         }
         return -1;
     }

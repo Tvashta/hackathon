@@ -105,17 +105,27 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
         USBB.setText(node.getUSBB());
 
         if(position%3 == 0) {
-            holder.left.setVisibility(View.INVISIBLE);
-            holder.down.setVisibility(View.INVISIBLE);
-            holder.divleft.setVisibility(View.INVISIBLE);
+            holder.left.setVisibility(View.GONE);
+            holder.down.setVisibility(View.GONE);
+            holder.divleft.setVisibility(View.GONE);
+            holder.right.setVisibility(View.VISIBLE);
+            holder.up.setVisibility(View.VISIBLE);
+            holder.divright.setVisibility(View.VISIBLE);
         }
         else if(position%3 == 1) {
-            holder.up.setVisibility(View.INVISIBLE);
-            holder.down.setVisibility(View.INVISIBLE);
+            holder.up.setVisibility(View.GONE);
+            holder.down.setVisibility(View.GONE);
+            holder.right.setVisibility(View.VISIBLE);
+            holder.left.setVisibility(View.VISIBLE);
+            holder.divright.setVisibility(View.VISIBLE);
+            holder.divleft.setVisibility(View.VISIBLE);
         } else {
-            holder.right.setVisibility(View.INVISIBLE);
-            holder.up.setVisibility(View.INVISIBLE);
-            holder.divright.setVisibility(View.INVISIBLE);
+            holder.right.setVisibility(View.GONE);
+            holder.up.setVisibility(View.GONE);
+            holder.divright.setVisibility(View.GONE);
+            holder.left.setVisibility(View.VISIBLE);
+            holder.down.setVisibility(View.VISIBLE);
+            holder.divleft.setVisibility(View.VISIBLE);
         }
 
     }

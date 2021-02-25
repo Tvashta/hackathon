@@ -28,6 +28,7 @@ import static java.lang.Math.max;
 
 public class MainActivity extends AppCompatActivity {
     static ArrayList<String> nodes = new ArrayList<>();
+    static ArrayList<Node> nodesList = new ArrayList<Node>();
 
     public static class BiMap<K, V> {
         HashMap<K, V> map = new HashMap<>();
@@ -49,8 +50,8 @@ public class MainActivity extends AppCompatActivity {
 
     static ArrayList<Integer> order = new ArrayList<>();
 
-    static String getNode(int row) {
-        return nodes.get(row);
+    static Node getNode(int row) {
+        return nodesList.get(row);
     }
 
     static void dfs(boolean[] visited, int v, ArrayList<ArrayList<Integer>> graph) {
@@ -63,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    ArrayList<Node> nodesList = new ArrayList<Node>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
             dfs(visited, start, graph);
             for (int i = 0; i < order.size(); i++) {
                 Log.d("MAC", map.getKey(order.get(i)).substring(9));
-                Node n = new Node(map.getKey(order.get(i)).substring(9));
+                Node n = new Node(map.getKey(order.get(i)).substring(9), nodes.get(order.get(i)).split(",")[6]);
                 nodesList.add(n);
             }
 

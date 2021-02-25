@@ -16,4 +16,7 @@ public class Node {
     public String getMAC() {
         return this.MAC;
     }
+    public String getIP() {
+        return this.IP;
+    }
 }

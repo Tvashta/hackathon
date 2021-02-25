@@ -1,6 +1,7 @@
 package com.example.firetopology;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +15,11 @@ import java.util.ArrayList;
 public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        public TextView mac;
+        public TextView mac,version,modePortA, modePortB;
         public ViewHolder(View itemView) {
             super(itemView);
             mac = (TextView) itemView.findViewById(R.id.macadd);
+            version = itemView.findViewById(R.id.version);
         }
 
         @Override
@@ -43,6 +45,14 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
         Node node = nodes.get(position);
         TextView textView = holder.mac;
         textView.setText(node.getMAC());
+        TextView appVersion = holder.version;
+        if(Double.parseDouble(node.getApplicationVersion()) < 30) {
+            appVersion.setText("A");
+            appVersion.setBackgroundColor(Color.parseColor("#EC4319"));
+        } else {
+            appVersion.setText("B");
+            appVersion.setBackgroundColor(Color.parseColor("#038A34"));
+        }
     }
 
     @Override

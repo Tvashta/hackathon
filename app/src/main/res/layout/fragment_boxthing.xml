@@ -10,7 +10,7 @@
     tools:context=".Boxthing">
 
     <TextView
-        android:id="@+id/age"
+        android:id="@+id/version"
         android:layout_width="18dp"
         android:layout_height="16dp"
         android:background="@drawable/circle_texta"

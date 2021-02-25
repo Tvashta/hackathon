@@ -2,16 +2,9 @@ package com.example.firetopology;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.PointF;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.util.Pair;
 import android.view.GestureDetector;
@@ -22,8 +15,8 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.flexbox.FlexDirection;
@@ -39,6 +32,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 import static java.lang.Math.max;
 
@@ -47,9 +41,10 @@ public class MainActivity extends AppCompatActivity {
     static ArrayList<String> nodes = new ArrayList<>();
     static ArrayList<Node> nodesList = new ArrayList<Node>();
     View pos1, pos2;
-    int p1,p2;
+    int p1, p2;
     Button hops;
     ConstraintLayout cclay;
+
     public static class BiMap<K, V> {
         HashMap<K, V> map = new HashMap<>();
         HashMap<V, K> inversedMap = new HashMap<>();
@@ -69,14 +64,49 @@ public class MainActivity extends AppCompatActivity {
     }
 
     static ArrayList<Integer> order = new ArrayList<>();
+    static BiMap<String, Integer> map = new BiMap<>();
 
     static Node getNode(int row) {
         return nodesList.get(row);
     }
 
+    static int bfs(int u, int v, int dir) {
+        BiMap<String, Integer> map1 = new BiMap<>();
+        for (int i = 0; i < nodesList.size(); i++)
+            map1.put(nodesList.get(i).getMAC(), i);
+        int count = 0;
+        boolean visited[] = new boolean[nodesList.size()];
+        LinkedList<Integer> queue = new LinkedList<Integer>();
+        visited[u] = true;
+        queue.add(u);
+        while (queue.size() != 0) {
+            u = queue.poll();
+            Log.d("BFS", u + "");
+            count++;
+            if (u == v) return count;
+            Node node = nodesList.get(u);
+            if (dir == 0) {
+                Integer n = map1.get(node.getMAC_Neighbour_B().substring(9));
+                if (n != null && !visited[n]) {
+                    visited[n] = true;
+                    queue.add(n);
+                }
+            } else {
+                Integer n = map1.get(node.getMAC_Neighbour_A().substring(9));
+                if (n != null && !visited[n]) {
+                    visited[n] = true;
+                    queue.add(n);
+                }
+            }
+
+
+        }
+        return -1;
+    }
+
     static void dfs(boolean[] visited, int v, ArrayList<ArrayList<Integer>> graph) {
         visited[v] = true;
-        Log.d("Node", String.valueOf(v));
+//        Log.d("Node", String.valueOf(v));
         order.add(v);
         for (Integer i : graph.get(v)) {
             if (i != null && !visited[i])
@@ -84,11 +114,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    BiMap<String, Integer> map = new BiMap<>();
+
     RecyclerView recyclerView;
     static ArrayList<Pair<Integer,Integer>> locations = new ArrayList<Pair<Integer, Integer>>();
     ConstraintLayout constraintLayout;
     @SuppressLint("ResourceType")
+    static ArrayList<Pair<Integer, Integer>> locations = new ArrayList<Pair<Integer, Integer>>();
+//    PointF pointA = new PointF(100,600);
+//    PointF pointB = new PointF(500,70);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,45 +137,52 @@ public class MainActivity extends AppCompatActivity {
         layoutManager.setFlexWrap(FlexWrap.WRAP);
         layoutManager.setJustifyContent(JustifyContent.FLEX_START);
         recyclerView.setLayoutManager(layoutManager);
-        hops=findViewById(R.id.hops);
+        hops = findViewById(R.id.hops);
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create(); //Read Update
+        alertDialog.setTitle("Number of Hops");
+
         hops.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, p1+","+p2,
-                        Toast.LENGTH_SHORT).show();
+                alertDialog.setMessage("From " + nodesList.get(p1).getMAC() + " to " + nodesList.get(p2).getMAC() + "\n\t\tVia Port A: " + bfs(p1, p2, 0) + "\n\t\tVia Port B: " + bfs(p1, p2, 1) + "\nFrom " + nodesList.get(p2).getMAC() + " to " + nodesList.get(p1).getMAC() + "\n\t\tVia Port A: " + bfs(p2, p1, 0) + "\n\t\tVia Port B: " + bfs(p2, p1, 1));
+                alertDialog.show();
             }
         });
         try {
-            InputStream is = getResources().openRawResource(R.raw.book1);
-            BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
-            String line = br.readLine();
-            int v = 0;
-            while ((line = br.readLine()) != null) {
-                nodes.add(line);
-                v++;
-            }
-            ArrayList<ArrayList<Integer>> graph = new ArrayList<>(v);
+            if(nodesList.size()==0){
+                InputStream is = getResources().openRawResource(R.raw.book1);
+                BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
+                String line = br.readLine();
+                int v = 0;
+                while ((line = br.readLine()) != null) {
+                    nodes.add(line);
+                    v++;
+                }
+                ArrayList<ArrayList<Integer>> graph = new ArrayList<>(v);
 
-            for (int i = 0; i < v; i++) {
-                graph.add(new ArrayList<>());
-                map.put(nodes.get(i).split(",")[0], i);
+                for (int i = 0; i < v; i++) {
+                    graph.add(new ArrayList<>());
+                    map.put(nodes.get(i).split(",")[0], i);
+                }
+
+                int start = -1;
+                for (int i = 0; i < v; i++) {
+                    String[] array = nodes.get(i).split(",");
+                    if ((map.get(array[7]) == null || (map.get(array[8]) == null)) && start == -1)
+                        start = map.get(array[0]);
+                    graph.get(map.get(array[0])).add(map.get(array[7]));
+                    graph.get(map.get(array[0])).add(map.get(array[8]));
+                }
+                start = max(start, 0);
+                boolean[] visited = new boolean[v];
+                dfs(visited, start, graph);
+                for (int i = 0; i < order.size(); i++) {
+                    Log.d("MAC", map.getKey(order.get(i)).substring(9));
+                    Node n = new Node(map.getKey(order.get(i)).substring(9), nodes.get(order.get(i)).split(",")[6], nodes.get(order.get(i)).split(",")[7], nodes.get(order.get(i)).split(",")[8], nodes.get(order.get(i)).split(",")[13], nodes.get(order.get(i)).split(",")[18], nodes.get(order.get(i)).split(",")[19], nodes.get(order.get(i)).split(",")[1], nodes.get(order.get(i)).split(",")[2], nodes.get(order.get(i)).split(",")[3], nodes.get(order.get(i)).split(",")[4]);
+                    nodesList.add(n);
+                }
             }
-            int start = -1;
-            for (int i = 0; i < v; i++) {
-                String[] array = nodes.get(i).split(",");
-                if ((map.get(array[7]) == null || (map.get(array[8]) == null)) && start == -1)
-                    start = map.get(array[0]);
-                graph.get(map.get(array[0])).add(map.get(array[7]));
-                graph.get(map.get(array[0])).add(map.get(array[8]));
-            }
-            start = max(start, 0);
-            boolean[] visited = new boolean[v];
-            dfs(visited, start, graph);
-            for (int i = 0; i < order.size(); i++) {
-                Log.d("MAC", map.getKey(order.get(i)).substring(9));
-                Node n = new Node(map.getKey(order.get(i)).substring(9), nodes.get(order.get(i)).split(",")[6],nodes.get(order.get(i)).split(",")[7],nodes.get(order.get(i)).split(",")[8],nodes.get(order.get(i)).split(",")[13],nodes.get(order.get(i)).split(",")[18],nodes.get(order.get(i)).split(",")[19],nodes.get(order.get(i)).split(",")[1],nodes.get(order.get(i)).split(",")[2],nodes.get(order.get(i)).split(",")[3],nodes.get(order.get(i)).split(",")[4]);
-                nodesList.add(n);
-            }
+
 
             NodeAdapter nodeAdapter = new NodeAdapter(nodesList);
             recyclerView.setAdapter(nodeAdapter);
@@ -182,41 +223,35 @@ public class MainActivity extends AppCompatActivity {
                             pos2=null;
                             p2=-1;
                         }
-                    }
-                    else if(pos2==view){
-                        pos2.setPadding(0,0,0,0);
-                        pos2=null;
-                        p2=-1;
-                    }
-                    else{
+                    } else if (pos2 == view) {
+                        pos2.setPadding(0, 0, 0, 0);
+                        pos2 = null;
+                        p2 = -1;
+                    } else {
                         view.setPadding(10, 10, 10, 10);
-                        if (pos1 == null)
-                        {
+                        if (pos1 == null) {
                             pos1 = view;
-                            p1=position;
-                        }
-                        else if (pos2 == null){
+                            p1 = position;
+                        } else if (pos2 == null) {
                             pos2 = view;
-                            p2=position;
-                        }
-                        else {
+                            p2 = position;
+                        } else {
                             pos1.setPadding(0, 0, 0, 0);
                             pos1 = pos2;
                             pos2 = view;
-                            p1=p2;
-                            p2=position;
+                            p1 = p2;
+                            p2 = position;
                         }
 
                     }
-                    if(pos1==pos2)
-                    {
-                        pos1.setPadding(0,0,0,0);
-                        pos2.setPadding(0,0,0,0);
-                        pos1=null;
-                        pos2=null;
-                        p1=p2=-1;
+                    if (pos1 == pos2) {
+                        pos1.setPadding(0, 0, 0, 0);
+                        pos2.setPadding(0, 0, 0, 0);
+                        pos1 = null;
+                        pos2 = null;
+                        p1 = p2 = -1;
                     }
-                    if(pos1!=null&&pos2!=null)
+                    if (pos1 != null && pos2 != null)
                         hops.setVisibility(View.VISIBLE);
                     else
                         hops.setVisibility(View.INVISIBLE);
@@ -233,8 +268,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void connectNodes() {
         ArrayList<Integer> arrayList = new ArrayList<Integer>();
-        for(int i=0;i<locations.size();i++) {
-            if(arrayList.contains(locations.get(i).first)) {
+        for (int i = 0; i < locations.size(); i++) {
+            if (arrayList.contains(locations.get(i).first)) {
                 break;
             }
             arrayList.add(locations.get(i).first);
@@ -242,8 +277,8 @@ public class MainActivity extends AppCompatActivity {
         int rowWidth = locations.get(3).second - locations.get(0).second;
         int start = locations.get(0).second;
 
-        Log.e("size",nodesList.size()+"");
-        for(int i=0; i<nodesList.size();i++) {
+        Log.e("size", nodesList.size() + "");
+        for (int i = 0; i < nodesList.size(); i++) {
             String neighbourA = nodesList.get(i).getMAC_Neighbour_A();
             String neighbourB = nodesList.get(i).getMAC_Neighbour_B();
             Integer indexOfNa, indexOfNb;

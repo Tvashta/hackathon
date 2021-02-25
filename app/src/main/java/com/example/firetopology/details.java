@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.fragment.app.DialogFragment;
 
 public class details extends DialogFragment {
-    TextView mac, ip;
+    TextView mac, ip,r;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -19,8 +19,10 @@ public class details extends DialogFragment {
         Node s = MainActivity.getNode(i);
         mac = (TextView) view.findViewById(R.id.mac_text);
         ip = (TextView) view.findViewById(R.id.ipText);
+        r=(TextView)view.findViewById(R.id.ipText2);
         mac.setText(s.getMAC());
         ip.setText(s.getIP());
+        r.setText(getArguments().getString("row"));
 
         return view;
     }

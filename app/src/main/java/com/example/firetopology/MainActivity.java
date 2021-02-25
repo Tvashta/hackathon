@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -14,6 +15,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -78,24 +80,12 @@ public class MainActivity extends AppCompatActivity {
     BiMap<String, Integer> map = new BiMap<>();
     RecyclerView recyclerView;
     static ArrayList<Pair<Integer,Integer>> locations = new ArrayList<Pair<Integer, Integer>>();
-    ConstraintLayout constraintLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        constraintLayout = findViewById(R.id.constrLayout);
-        Bitmap bitmap = Bitmap.createBitmap(10, 700, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        canvas.drawColor(Color.RED);
-        Paint paint = new Paint();
-        paint.setColor(Color.RED);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(8);
-        paint.setAntiAlias(true);
-        int offset = 50;
-        canvas.drawLine(
-                offset, canvas.getHeight() / 2, canvas.getWidth() - offset, canvas.getHeight() / 2, paint);
-        recyclerView.addView();
+
+
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(this);
         layoutManager.setFlexDirection(FlexDirection.ROW);
@@ -227,7 +217,6 @@ public class MainActivity extends AppCompatActivity {
             Log.d("Error", e.toString());
             e.printStackTrace();
         }
-
     }
 
     private void connectNodes() {
@@ -248,33 +237,20 @@ public class MainActivity extends AppCompatActivity {
             Integer indexOfNa, indexOfNb;
             indexOfNa = map.get(neighbourA);
             indexOfNb = map.get(neighbourB);
-
-            Paint myPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-            myPaint.setStrokeWidth(4);
-            myPaint.setColor(Color.RED);   //color.RED
-            Canvas canvas = new Canvas();
-            //Log.e("ind",indexOfNa+"");
             int xStart, yStart, xEnd, yEnd;
-            if(indexOfNa != null) {
-                xStart = arrayList.get((i%(arrayList.size())));
-                xEnd = arrayList.get(((indexOfNa.intValue())%(arrayList.size())));
-                yStart = rowWidth*(1+((int)i/3));
-                yEnd = rowWidth*(1+((int)(indexOfNa.intValue())/3));
-
-                canvas.drawLine(xStart, yStart, xEnd,yEnd, myPaint);
+            if (indexOfNa != null) {
+                xStart = arrayList.get((i % (arrayList.size())));
+                xEnd = arrayList.get(((indexOfNa.intValue()) % (arrayList.size())));
+                yStart = rowWidth * (1 + ((int) i / 3));
+                yEnd = rowWidth * (1 + ((int) (indexOfNa.intValue()) / 3));
             }
 
-            if(indexOfNb != null) {
-                xStart = arrayList.get((i%(arrayList.size())));
-                xEnd = arrayList.get(((indexOfNb.intValue())%(arrayList.size())));
-                yStart = rowWidth*(1+((int)i/3));
-                yEnd = rowWidth*(1+((int)(indexOfNb.intValue())/3));
-
-                canvas.drawLine(xStart, yStart, xEnd,yEnd, myPaint);
+            if (indexOfNb != null) {
+                xStart = arrayList.get((i % (arrayList.size())));
+                xEnd = arrayList.get(((indexOfNb.intValue()) % (arrayList.size())));
+                yStart = rowWidth * (1 + ((int) i / 3));
+                yEnd = rowWidth * (1 + ((int) (indexOfNb.intValue()) / 3));
             }
-
-
-
 
         }
     }
@@ -326,22 +302,6 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-        }
-    }
-
-    class DrawView extends View {
-        Paint paint = new Paint();
-
-        public DrawView(Context context) {
-            super(context);
-            paint.setColor(Color.BLUE);
-        }
-
-
-        public void onDraw(Canvas canvas, Integer startX, Integer startY, Integer stopX, Integer stopY) {
-            super.onDraw(canvas);
-            canvas.drawLine(startX, startY, stopX, stopY, paint);
 
         }
     }

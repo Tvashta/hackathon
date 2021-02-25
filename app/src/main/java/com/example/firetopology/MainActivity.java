@@ -1,9 +1,23 @@
 package com.example.firetopology;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexWrap;
+import com.google.android.flexbox.FlexboxLayout;
+import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.JustifyContent;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -16,6 +30,7 @@ import static java.lang.Math.max;
 
 
 public class MainActivity extends AppCompatActivity {
+
     public static class BiMap<K, V> {
         HashMap<K, V> map = new HashMap<>();
         HashMap<V, K> inversedMap = new HashMap<>();
@@ -46,10 +61,33 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    ArrayList<Node> nodes = new ArrayList<Node>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
+
+
+        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
+        Node node1 = new Node("1","ip1","0","2");
+        Node node2 = new Node("2","ip2","1","3");
+        Node node3 = new Node("3","ip3","2","4");
+        Node node4 = new Node("4","ip4","3","0");
+
+        nodes.add(node1);
+        nodes.add(node2);
+        nodes.add(node3);
+        nodes.add(node4);
+
+        NodeAdapter nodeAdapter = new NodeAdapter(nodes);
+        recyclerView.setAdapter(nodeAdapter);
+//        FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(this);
+//        layoutManager.setFlexDirection(FlexDirection.ROW);
+//        layoutManager.setJustifyContent(JustifyContent.FLEX_START);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+
         try {
             InputStream is = getResources().openRawResource(R.raw.book1);
             BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
@@ -79,8 +117,16 @@ public class MainActivity extends AppCompatActivity {
 //            for(boolean i: visited)
 //                Log.d("Check", String.valueOf(i));
             dfs(visited, start, graph);
-            for (int i = 0; i < order.size(); i++)
+            for (int i = 0; i < order.size(); i++) {
+
                 Log.d("MAC", map.getKey(order.get(i)).substring(9));
+                TextView textView = new TextView(this);
+                textView.setText("dsfgvb");
+                //flexboxLayout.addView(textView);
+                recyclerView.addView(textView);
+
+            }
+
         } catch (Exception e) {
             Log.d("Error", e.toString());
             e.printStackTrace();
@@ -90,3 +136,5 @@ public class MainActivity extends AppCompatActivity {
 
 
 }
+
+

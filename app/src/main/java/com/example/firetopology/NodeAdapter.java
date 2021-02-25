@@ -13,11 +13,16 @@ import java.util.ArrayList;
 
 public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public TextView mac;
         public ViewHolder(View itemView) {
             super(itemView);
             mac = (TextView) itemView.findViewById(R.id.macadd);
+        }
+
+        @Override
+        public void onClick(View view) {
+
         }
     }
 
@@ -49,4 +54,5 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
     public NodeAdapter(ArrayList<Node> nodesList) {
         nodes = nodesList;
     }
+
 }

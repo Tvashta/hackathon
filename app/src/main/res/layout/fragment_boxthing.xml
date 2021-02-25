@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="375dp"
+    android:layout_height="257dp"
+    android:background="@color/black"
+    tools:context=".Boxthing">
+
+    <TextView
+        android:id="@+id/macadd"
+        android:layout_width="280dp"
+        android:layout_height="33dp"
+        android:background="#ECECEC"
+        android:textSize="20sp"
+        android:text="06 AA 12"
+        android:gravity="center"
+        android:textColor="@color/black"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="38dp"
+        tools:layout_editor_absoluteY="41dp" />
+
+    <TextView
+        android:id="@+id/age"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/circle_texta"
+        android:gravity="center"
+        android:text="A"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="38dp"
+        tools:layout_editor_absoluteY="40dp" />
+
+    <TextView
+        android:id="@+id/type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/circle_textv"
+        android:text="V"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="284dp"
+        tools:layout_editor_absoluteY="41dp" />
+
+    <TextView
+        android:id="@+id/nupa"
+        android:layout_width="130dp"
+        android:layout_height="50dp"
+        android:background="#CCEEFF"
+        tools:ignore="MissingConstraints"
+        android:text="244"
+        android:textSize="30sp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        tools:layout_editor_absoluteX="38dp"
+        tools:layout_editor_absoluteY="92dp" />
+
+    <TextView
+        android:id="@+id/nupb"
+        android:layout_width="130dp"
+        android:layout_height="50dp"
+        android:background="#FFCCD0"
+        android:textSize="30sp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="188dp"
+        tools:layout_editor_absoluteY="92dp" />
+
+    <TextView
+        android:id="@+id/usba"
+        android:layout_width="130dp"
+        android:layout_height="50dp"
+        android:background="#FFF1CC"
+        android:textSize="30sp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="38dp"
+        tools:layout_editor_absoluteY="155dp" />
+
+    <TextView
+        android:id="@+id/usbb"
+        android:layout_width="130dp"
+        android:layout_height="50dp"
+        android:background="#D4FFCC"
+        android:textSize="30sp"
+        android:gravity="center"
+        android:text="123"
+        android:textColor="@color/black"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="188dp"
+        tools:layout_editor_absoluteY="155dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

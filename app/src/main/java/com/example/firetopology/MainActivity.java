@@ -1,5 +1,6 @@
 package com.example.firetopology;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -18,6 +19,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +30,8 @@ import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
+
+import org.xmlpull.v1.XmlPullParser;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -45,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     View pos1, pos2;
     int p1,p2;
     Button hops;
+    ConstraintLayout cclay;
     public static class BiMap<K, V> {
         HashMap<K, V> map = new HashMap<>();
         HashMap<V, K> inversedMap = new HashMap<>();
@@ -82,30 +87,21 @@ public class MainActivity extends AppCompatActivity {
     BiMap<String, Integer> map = new BiMap<>();
     RecyclerView recyclerView;
     static ArrayList<Pair<Integer,Integer>> locations = new ArrayList<Pair<Integer, Integer>>();
-    PointF pointA = new PointF(100,600);
-    PointF pointB = new PointF(500,70);
-    private LineView mLineView ;
+    ConstraintLayout constraintLayout;
+    @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        constraintLayout = findViewById(R.id.constrLayout);
+        cclay = findViewById(R.id.clay);
 
-        mLineView = (LineView) findViewById(R.id.lineView);
-        mLineView.setPointA(pointA);
-        mLineView.setPointB(pointB);
-        mLineView.draw();
-        mLineView = (LineView) findViewById(R.id.lineView1);
-        PointF pointA = new PointF(0,600);
-        PointF pointB = new PointF(90,70);
-        mLineView.setPointA(pointA);
-        mLineView.setPointB(pointB);
-        mLineView.draw();
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(this);
         layoutManager.setFlexDirection(FlexDirection.ROW);
         layoutManager.setFlexWrap(FlexWrap.WRAP);
-        layoutManager.setJustifyContent(JustifyContent.SPACE_AROUND);
+        layoutManager.setJustifyContent(JustifyContent.FLEX_START);
         recyclerView.setLayoutManager(layoutManager);
         hops=findViewById(R.id.hops);
         hops.setOnClickListener(new View.OnClickListener() {
@@ -175,6 +171,7 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onLongClick(View view, int position) {
+                    view = view.findViewById(R.id.redbg);
                     if(pos1==view)
                     {
                         pos1.setPadding(0,0,0,0);
@@ -242,8 +239,8 @@ public class MainActivity extends AppCompatActivity {
             }
             arrayList.add(locations.get(i).first);
         }
-        int rowWidth = locations.get(1).second - locations.get(0).second;
-
+        int rowWidth = locations.get(3).second - locations.get(0).second;
+        int start = locations.get(0).second;
 
         Log.e("size",nodesList.size()+"");
         for(int i=0; i<nodesList.size();i++) {
@@ -258,6 +255,12 @@ public class MainActivity extends AppCompatActivity {
                 xEnd = arrayList.get(((indexOfNa.intValue()) % (arrayList.size())));
                 yStart = rowWidth * (1 + ((int) i / 3));
                 yEnd = rowWidth * (1 + ((int) (indexOfNa.intValue()) / 3));
+
+                Log.e("coord",xStart+" "+yStart+"        "+xEnd+" " + yEnd);
+                PointF pointA = new PointF(xStart,yStart);
+                PointF pointB = new PointF(xEnd,yEnd);
+                cclay.addView(new LineView(this, pointA, pointB));
+
             }
 
             if (indexOfNb != null) {
@@ -265,6 +268,11 @@ public class MainActivity extends AppCompatActivity {
                 xEnd = arrayList.get(((indexOfNb.intValue()) % (arrayList.size())));
                 yStart = rowWidth * (1 + ((int) i / 3));
                 yEnd = rowWidth * (1 + ((int) (indexOfNb.intValue()) / 3));
+
+//                PointF pointA2 = new PointF(xStart,yStart);
+//                PointF pointB2 = new PointF(xEnd,yEnd);
+//                LineView lineView2 = new LineView(this, pointA2, pointB2);
+//                constraintLayout.addView(lineView2);
             }
 
         }

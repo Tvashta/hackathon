@@ -16,8 +16,10 @@ public class LineView extends View
 
     private PointF pointA, pointB;
 
-    public LineView(Context context) {
+    public LineView(Context context, PointF a, PointF b) {
         super(context);
+        this.pointA = a;
+        this.pointB = b;
     }
 
     public LineView(Context context, @Nullable AttributeSet attrs) {
@@ -33,7 +35,7 @@ public class LineView extends View
     {
         paint.setColor(Color.RED);
 
-        paint.setStrokeWidth(20);
+        paint.setStrokeWidth(4);
 
         canvas.drawLine(pointA.x,pointA.y,pointB.x,pointB.y,paint);
 

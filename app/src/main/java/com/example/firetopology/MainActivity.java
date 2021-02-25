@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(this);
         layoutManager.setFlexDirection(FlexDirection.ROW);
         layoutManager.setFlexWrap(FlexWrap.WRAP);
-        layoutManager.setJustifyContent(JustifyContent.FLEX_START);
+        layoutManager.setJustifyContent(JustifyContent.SPACE_AROUND);
         recyclerView.setLayoutManager(layoutManager);
         hops=findViewById(R.id.hops);
         hops.setOnClickListener(new View.OnClickListener() {
@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
             dfs(visited, start, graph);
             for (int i = 0; i < order.size(); i++) {
                 Log.d("MAC", map.getKey(order.get(i)).substring(9));
-                Node n = new Node(map.getKey(order.get(i)).substring(9), nodes.get(order.get(i)).split(",")[6]);
+                Node n = new Node(map.getKey(order.get(i)).substring(9), nodes.get(order.get(i)).split(",")[6],nodes.get(order.get(i)).split(",")[7],nodes.get(order.get(i)).split(",")[8],nodes.get(order.get(i)).split(",")[13],nodes.get(order.get(i)).split(",")[18],nodes.get(order.get(i)).split(",")[19],nodes.get(order.get(i)).split(",")[1],nodes.get(order.get(i)).split(",")[2],nodes.get(order.get(i)).split(",")[3],nodes.get(order.get(i)).split(",")[4]);
                 nodesList.add(n);
             }
 

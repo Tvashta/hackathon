@@ -23,6 +23,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 import static java.lang.Math.max;
 
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     static ArrayList<Integer> order = new ArrayList<>();
-
+    ArrayList<ArrayList<Integer>> graph;
     static Node getNode(int row) {
         return nodesList.get(row);
     }
@@ -66,7 +67,31 @@ public class MainActivity extends AppCompatActivity {
                 dfs(visited, i, graph);
         }
     }
+    int countRight(boolean[] visited, int u, ArrayList<ArrayList<Integer>> graph, int v, int dir){
+        visited[u]=true;
+        LinkedList<Integer> queue = new LinkedList<Integer>();
+        queue.add(u);
+        int count =0;
+        while (queue.size() != 0) {
+            u = queue.poll();
+            count+=1;
+            Log.d("asdfg",  u+" "+v);
+            if(u==v)
+                return count;
+            Integer n=graph.get(u).get(dir);
+            if(n!=null && !visited[n]) {
+                    visited[n] = true;
+                    queue.add(n);
+                }
 
+        }
+        return -1;
+
+//        Log.d("bkj",count+"");
+//        if(u!=v)
+//        if(graph.get(u).get(0) !=null && !visited[graph.get(u).get(0)])
+//            countRight(visited,graph.get(u).get(0), graph, count+1,v);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +107,10 @@ public class MainActivity extends AppCompatActivity {
         hops.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, p1+","+p2,
+                boolean[] visited = new boolean[order.size()];
+                int count=-1;
+
+                Toast.makeText(MainActivity.this,  countRight(visited,p1,graph,p2,0)+" "+countRight(visited,p1,graph,p2,1)+" "+countRight(visited,p2,graph,p1,0)+" "+countRight(visited,p2,graph,p1,1),
                         Toast.LENGTH_SHORT).show();
             }
         });
@@ -95,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
                 nodes.add(line);
                 v++;
             }
-            ArrayList<ArrayList<Integer>> graph = new ArrayList<>(v);
+            graph = new ArrayList<>(v);
             BiMap<String, Integer> map = new BiMap<>();
             for (int i = 0; i < v; i++) {
                 graph.add(new ArrayList<>());

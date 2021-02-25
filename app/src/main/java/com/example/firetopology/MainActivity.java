@@ -6,9 +6,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PointF;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.util.Pair;
 import android.view.GestureDetector;
@@ -80,11 +82,24 @@ public class MainActivity extends AppCompatActivity {
     BiMap<String, Integer> map = new BiMap<>();
     RecyclerView recyclerView;
     static ArrayList<Pair<Integer,Integer>> locations = new ArrayList<Pair<Integer, Integer>>();
+    PointF pointA = new PointF(100,600);
+    PointF pointB = new PointF(500,70);
+    private LineView mLineView ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mLineView = (LineView) findViewById(R.id.lineView);
+        mLineView.setPointA(pointA);
+        mLineView.setPointB(pointB);
+        mLineView.draw();
+        mLineView = (LineView) findViewById(R.id.lineView1);
+        PointF pointA = new PointF(0,600);
+        PointF pointB = new PointF(90,70);
+        mLineView.setPointA(pointA);
+        mLineView.setPointB(pointB);
+        mLineView.draw();
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(this);
@@ -305,6 +320,8 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
+
 }
 
 

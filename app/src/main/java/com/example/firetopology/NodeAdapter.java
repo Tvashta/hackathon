@@ -17,7 +17,7 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
         public TextView mac;
         public ViewHolder(View itemView) {
             super(itemView);
-            mac = (TextView) itemView.findViewById(R.id.mac);
+            mac = (TextView) itemView.findViewById(R.id.macadd);
         }
     }
 
@@ -27,7 +27,7 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        View nodeView = inflater.inflate(R.layout.node_layout,parent,false);
+        View nodeView = inflater.inflate(R.layout.fragment_boxthing,parent,false);
 
         ViewHolder viewHolder = new ViewHolder(nodeView);
         return viewHolder;

@@ -3,9 +3,11 @@ package com.example.firetopology;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -41,8 +43,17 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
         LayoutInflater inflater = LayoutInflater.from(context);
 
         View nodeView = inflater.inflate(R.layout.fragment_boxthing,parent,false);
-
         ViewHolder viewHolder = new ViewHolder(nodeView);
+        int location[] = {0,0};
+        View view = viewHolder.mac;
+        view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                view.getLocationOnScreen(location);
+                MainActivity.locations.add(new Pair<>(location[0],location[1]));
+                Log.e("zzzzzzzzzzzzzzz",location[0]+" "+location[1]);
+            }
+        });
         return viewHolder;
     }
 
@@ -94,6 +105,8 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
         NUPB.setText(node.getNUPB());
         USBA.setText(node.getUSBA());
         USBB.setText(node.getUSBB());
+
+
     }
 
     @Override
@@ -105,5 +118,6 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
     public NodeAdapter(ArrayList<Node> nodesList) {
         nodes = nodesList;
     }
+
 
 }

@@ -1,8 +1,15 @@
 package com.example.firetopology;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
+import android.util.Pair;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -10,6 +17,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.flexbox.FlexDirection;
@@ -23,7 +31,6 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 
 import static java.lang.Math.max;
 
@@ -53,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     static ArrayList<Integer> order = new ArrayList<>();
-    ArrayList<ArrayList<Integer>> graph;
+
     static Node getNode(int row) {
         return nodesList.get(row);
     }
@@ -67,37 +74,29 @@ public class MainActivity extends AppCompatActivity {
                 dfs(visited, i, graph);
         }
     }
-    int countRight(boolean[] visited, int u, ArrayList<ArrayList<Integer>> graph, int v, int dir){
-        visited[u]=true;
-        LinkedList<Integer> queue = new LinkedList<Integer>();
-        queue.add(u);
-        int count =0;
-        while (queue.size() != 0) {
-            u = queue.poll();
-            count+=1;
-            Log.d("asdfg",  u+" "+v);
-            if(u==v)
-                return count;
-            Integer n=graph.get(u).get(dir);
-            if(n!=null && !visited[n]) {
-                    visited[n] = true;
-                    queue.add(n);
-                }
 
-        }
-        return -1;
-
-//        Log.d("bkj",count+"");
-//        if(u!=v)
-//        if(graph.get(u).get(0) !=null && !visited[graph.get(u).get(0)])
-//            countRight(visited,graph.get(u).get(0), graph, count+1,v);
-    }
-
+    BiMap<String, Integer> map = new BiMap<>();
+    RecyclerView recyclerView;
+    static ArrayList<Pair<Integer,Integer>> locations = new ArrayList<Pair<Integer, Integer>>();
+    ConstraintLayout constraintLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        constraintLayout = findViewById(R.id.constrLayout);
+        Bitmap bitmap = Bitmap.createBitmap(10, 700, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        canvas.drawColor(Color.RED);
+        Paint paint = new Paint();
+        paint.setColor(Color.RED);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(8);
+        paint.setAntiAlias(true);
+        int offset = 50;
+        canvas.drawLine(
+                offset, canvas.getHeight() / 2, canvas.getWidth() - offset, canvas.getHeight() / 2, paint);
+        recyclerView.addView();
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(this);
         layoutManager.setFlexDirection(FlexDirection.ROW);
         layoutManager.setFlexWrap(FlexWrap.WRAP);
@@ -107,10 +106,7 @@ public class MainActivity extends AppCompatActivity {
         hops.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean[] visited = new boolean[order.size()];
-                int count=-1;
-
-                Toast.makeText(MainActivity.this,  countRight(visited,p1,graph,p2,0)+" "+countRight(visited,p1,graph,p2,1)+" "+countRight(visited,p2,graph,p1,0)+" "+countRight(visited,p2,graph,p1,1),
+                Toast.makeText(MainActivity.this, p1+","+p2,
                         Toast.LENGTH_SHORT).show();
             }
         });
@@ -123,8 +119,8 @@ public class MainActivity extends AppCompatActivity {
                 nodes.add(line);
                 v++;
             }
-            graph = new ArrayList<>(v);
-            BiMap<String, Integer> map = new BiMap<>();
+            ArrayList<ArrayList<Integer>> graph = new ArrayList<>(v);
+
             for (int i = 0; i < v; i++) {
                 graph.add(new ArrayList<>());
                 map.put(nodes.get(i).split(",")[0], i);
@@ -139,8 +135,6 @@ public class MainActivity extends AppCompatActivity {
             }
             start = max(start, 0);
             boolean[] visited = new boolean[v];
-//            for(boolean i: visited)
-//                Log.d("Check", String.valueOf(i));
             dfs(visited, start, graph);
             for (int i = 0; i < order.size(); i++) {
                 Log.d("MAC", map.getKey(order.get(i)).substring(9));
@@ -150,6 +144,16 @@ public class MainActivity extends AppCompatActivity {
 
             NodeAdapter nodeAdapter = new NodeAdapter(nodesList);
             recyclerView.setAdapter(nodeAdapter);
+
+            new Handler(Looper.getMainLooper()).postDelayed(
+                    new Runnable() {
+                        public void run() {
+                            connectNodes();
+                        }
+                    },
+                    1000);
+
+
             recyclerView.addOnItemTouchListener(new RecyclerTouchListener(this,
                     recyclerView, new ClickListener() {
                 @Override
@@ -226,6 +230,55 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void connectNodes() {
+        ArrayList<Integer> arrayList = new ArrayList<Integer>();
+        for(int i=0;i<locations.size();i++) {
+            if(arrayList.contains(locations.get(i).first)) {
+                break;
+            }
+            arrayList.add(locations.get(i).first);
+        }
+        int rowWidth = locations.get(1).second - locations.get(0).second;
+
+
+        Log.e("size",nodesList.size()+"");
+        for(int i=0; i<nodesList.size();i++) {
+            String neighbourA = nodesList.get(i).getMAC_Neighbour_A();
+            String neighbourB = nodesList.get(i).getMAC_Neighbour_B();
+            Integer indexOfNa, indexOfNb;
+            indexOfNa = map.get(neighbourA);
+            indexOfNb = map.get(neighbourB);
+
+            Paint myPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+            myPaint.setStrokeWidth(4);
+            myPaint.setColor(Color.RED);   //color.RED
+            Canvas canvas = new Canvas();
+            //Log.e("ind",indexOfNa+"");
+            int xStart, yStart, xEnd, yEnd;
+            if(indexOfNa != null) {
+                xStart = arrayList.get((i%(arrayList.size())));
+                xEnd = arrayList.get(((indexOfNa.intValue())%(arrayList.size())));
+                yStart = rowWidth*(1+((int)i/3));
+                yEnd = rowWidth*(1+((int)(indexOfNa.intValue())/3));
+
+                canvas.drawLine(xStart, yStart, xEnd,yEnd, myPaint);
+            }
+
+            if(indexOfNb != null) {
+                xStart = arrayList.get((i%(arrayList.size())));
+                xEnd = arrayList.get(((indexOfNb.intValue())%(arrayList.size())));
+                yStart = rowWidth*(1+((int)i/3));
+                yEnd = rowWidth*(1+((int)(indexOfNb.intValue())/3));
+
+                canvas.drawLine(xStart, yStart, xEnd,yEnd, myPaint);
+            }
+
+
+
+
+        }
+    }
+
     public static interface ClickListener {
         public void onClick(View view, int position);
 
@@ -277,6 +330,21 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    class DrawView extends View {
+        Paint paint = new Paint();
+
+        public DrawView(Context context) {
+            super(context);
+            paint.setColor(Color.BLUE);
+        }
+
+
+        public void onDraw(Canvas canvas, Integer startX, Integer startY, Integer stopX, Integer stopY) {
+            super.onDraw(canvas);
+            canvas.drawLine(startX, startY, stopX, stopY, paint);
+
+        }
+    }
 }
 
 

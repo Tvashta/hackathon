@@ -5,9 +5,11 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PointF;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.util.Pair;
 import android.view.GestureDetector;
@@ -78,24 +80,25 @@ public class MainActivity extends AppCompatActivity {
     BiMap<String, Integer> map = new BiMap<>();
     RecyclerView recyclerView;
     static ArrayList<Pair<Integer,Integer>> locations = new ArrayList<Pair<Integer, Integer>>();
-    ConstraintLayout constraintLayout;
+    PointF pointA = new PointF(100,600);
+    PointF pointB = new PointF(500,70);
+    private LineView mLineView ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        constraintLayout = findViewById(R.id.constrLayout);
-        Bitmap bitmap = Bitmap.createBitmap(10, 700, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        canvas.drawColor(Color.RED);
-        Paint paint = new Paint();
-        paint.setColor(Color.RED);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(8);
-        paint.setAntiAlias(true);
-        int offset = 50;
-        canvas.drawLine(
-                offset, canvas.getHeight() / 2, canvas.getWidth() - offset, canvas.getHeight() / 2, paint);
-        recyclerView.addView();
+
+        mLineView = (LineView) findViewById(R.id.lineView);
+        mLineView.setPointA(pointA);
+        mLineView.setPointB(pointB);
+        mLineView.draw();
+        mLineView = (LineView) findViewById(R.id.lineView1);
+        PointF pointA = new PointF(0,600);
+        PointF pointB = new PointF(90,70);
+        mLineView.setPointA(pointA);
+        mLineView.setPointB(pointB);
+        mLineView.draw();
+
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(this);
         layoutManager.setFlexDirection(FlexDirection.ROW);
@@ -330,21 +333,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    class DrawView extends View {
-        Paint paint = new Paint();
 
-        public DrawView(Context context) {
-            super(context);
-            paint.setColor(Color.BLUE);
-        }
-
-
-        public void onDraw(Canvas canvas, Integer startX, Integer startY, Integer stopX, Integer stopY) {
-            super.onDraw(canvas);
-            canvas.drawLine(startX, startY, stopX, stopY, paint);
-
-        }
-    }
 }
 
 

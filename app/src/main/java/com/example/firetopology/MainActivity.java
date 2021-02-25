@@ -1,32 +1,58 @@
 package com.example.firetopology;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.*;
-import java.io.*;
-import java.nio.charset.Charset;
-import java.util.*;
-import com.opencsv.CSVReader;
+import android.util.Log;
 
-public class MainActivity extends AppCompatActivity{
-    static void printGraph(ArrayList<ArrayList<Integer>> adj) {
-        for(int i=0;i<adj.size();i++) {
-            Log.d("Vertex", Integer.toString(i));
-            for(int j=0; j < adj.get(i).size();j++) {
-                Log.d("Vertices","->"+adj.get(i).get(j));
-            }
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import static java.lang.Math.max;
+
+
+public class MainActivity extends AppCompatActivity {
+    public static class BiMap<K, V> {
+        HashMap<K, V> map = new HashMap<>();
+        HashMap<V, K> inversedMap = new HashMap<>();
+
+        void put(K k, V v) {
+            map.put(k, v);
+            inversedMap.put(v, k);
+        }
+
+        V get(K k) {
+            return map.get(k);
+        }
+
+        K getKey(V v) {
+            return inversedMap.get(v);
+        }
     }
+
+    static ArrayList<Integer> order = new ArrayList<>();
+
+    static void dfs(boolean[] visited, int v, ArrayList<ArrayList<Integer>> graph) {
+        visited[v] = true;
+        Log.d("Node", String.valueOf(v));
+        order.add(v);
+        for (Integer i : graph.get(v)) {
+            if (i != null && !visited[i])
+                dfs(visited, i, graph);
+        }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.d("EAF","AFdv");
         try {
-            Log.d("2","xyz2");
             InputStream is = getResources().openRawResource(R.raw.book1);
-            BufferedReader br = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+            BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
             String line = br.readLine();
             ArrayList<String> nodes = new ArrayList<>();
             int v = 0;
@@ -35,30 +61,32 @@ public class MainActivity extends AppCompatActivity{
                 v++;
             }
             ArrayList<ArrayList<Integer>> graph = new ArrayList<>(v);
-            HashMap<String,Integer> map = new HashMap<>();
-            for(int i=0; i<v; i++) {
-                graph.add(new ArrayList<Integer>());
+            BiMap<String, Integer> map = new BiMap<>();
+            for (int i = 0; i < v; i++) {
+                graph.add(new ArrayList<>());
                 map.put(nodes.get(i).split(",")[0], i);
             }
-
-            for(int i=0; i<v;i++) {
+            int start = -1;
+            for (int i = 0; i < v; i++) {
                 String[] array = nodes.get(i).split(",");
-//                for (int ii =0; ii<array.length;ii++) {
-//                    Log.d("err2",array[ii]);
-//                }
-
+                if ((map.get(array[7]) == null || (map.get(array[8]) == null)) && start == -1)
+                    start = map.get(array[0]);
                 graph.get(map.get(array[0])).add(map.get(array[7]));
                 graph.get(map.get(array[0])).add(map.get(array[8]));
             }
-            printGraph(graph);
-        }
-        catch (Exception e) {
-            Log.d("err",e.toString());
+            start = max(start, 0);
+            boolean[] visited = new boolean[v];
+//            for(boolean i: visited)
+//                Log.d("Check", String.valueOf(i));
+            dfs(visited, start, graph);
+            for (int i = 0; i < order.size(); i++)
+                Log.d("MAC", map.getKey(order.get(i)).substring(9));
+        } catch (Exception e) {
+            Log.d("Error", e.toString());
+            e.printStackTrace();
         }
 
     }
-
-
 
 
 }

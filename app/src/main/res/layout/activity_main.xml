@@ -4,24 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/constrLayout"
+    android:background="@color/white"
     tools:context=".MainActivity">
 
-    <Button
-        android:text="Find hops"
-        android:id="@+id/hops"
-        android:visibility="invisible"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"
         android:layout_width="396dp"
         android:layout_height="701dp"
-        android:background="@color/white"
         android:layout_marginTop="60dp"
+        android:background="@color/white"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,6 +22,15 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
+    <Button
+        android:id="@+id/hops"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Find hops"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <com.example.firetopology.LineView
         android:id="@+id/lineView"
         android:layout_width="match_parent"

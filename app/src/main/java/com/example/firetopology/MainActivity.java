@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,7 +17,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -231,7 +232,6 @@ public class MainActivity extends AppCompatActivity {
             Log.d("Error", e.toString());
             e.printStackTrace();
         }
-
     }
 
     private void connectNodes() {
@@ -252,35 +252,20 @@ public class MainActivity extends AppCompatActivity {
             Integer indexOfNa, indexOfNb;
             indexOfNa = map.get(neighbourA);
             indexOfNb = map.get(neighbourB);
-
-            Paint myPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-            myPaint.setStrokeWidth(4);
-            myPaint.setColor(Color.RED);   //color.RED
-            Canvas canvas = new Canvas();
-            //Log.e("ind",indexOfNa+"");
             int xStart, yStart, xEnd, yEnd;
-            if(indexOfNa != null) {
-                xStart = arrayList.get((i%(arrayList.size())));
-                xEnd = arrayList.get(((indexOfNa.intValue())%(arrayList.size())));
-                yStart = rowWidth*(1+((int)i/3));
-                yEnd = rowWidth*(1+((int)(indexOfNa.intValue())/3));
-                View view = new View(this);
-                LinearLayout.LayoutParams lpView = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1); // --> horizontal
-                view.setLayoutParams(lpView);
-                view.setBackgroundColor(Color.DKGRAY);
+            if (indexOfNa != null) {
+                xStart = arrayList.get((i % (arrayList.size())));
+                xEnd = arrayList.get(((indexOfNa.intValue()) % (arrayList.size())));
+                yStart = rowWidth * (1 + ((int) i / 3));
+                yEnd = rowWidth * (1 + ((int) (indexOfNa.intValue()) / 3));
             }
 
-            if(indexOfNb != null) {
-                xStart = arrayList.get((i%(arrayList.size())));
-                xEnd = arrayList.get(((indexOfNb.intValue())%(arrayList.size())));
-                yStart = rowWidth*(1+((int)i/3));
-                yEnd = rowWidth*(1+((int)(indexOfNb.intValue())/3));
-
-                canvas.drawLine(xStart, yStart, xEnd,yEnd, myPaint);
+            if (indexOfNb != null) {
+                xStart = arrayList.get((i % (arrayList.size())));
+                xEnd = arrayList.get(((indexOfNb.intValue()) % (arrayList.size())));
+                yStart = rowWidth * (1 + ((int) i / 3));
+                yEnd = rowWidth * (1 + ((int) (indexOfNb.intValue()) / 3));
             }
-
-
-
 
         }
     }

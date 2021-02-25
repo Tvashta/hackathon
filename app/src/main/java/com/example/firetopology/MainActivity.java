@@ -1,13 +1,14 @@
 package com.example.firetopology;
 
 import android.os.Bundle;
-import android.telecom.Call;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.RecyclerView;
+
+
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.JustifyContent;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -20,8 +21,7 @@ import static java.lang.Math.max;
 
 
 public class MainActivity extends AppCompatActivity {
-    Button btn1;
-    static ArrayList<String> nodes = new ArrayList<>();
+
     public static class BiMap<K, V> {
         HashMap<K, V> map = new HashMap<>();
         HashMap<V, K> inversedMap = new HashMap<>();
@@ -36,14 +36,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         K getKey(V v) {
-            return inversedMap.get(v);
-        }
+            return inversedMap.get(v);}
     }
 
     static ArrayList<Integer> order = new ArrayList<>();
-    static String getNode(int row){
-        return nodes.get(row);
-    }
+
     static void dfs(boolean[] visited, int v, ArrayList<ArrayList<Integer>> graph) {
         visited[v] = true;
         Log.d("Node", String.valueOf(v));
@@ -54,16 +51,23 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    ArrayList<Node> nodesList = new ArrayList<Node>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        btn1=findViewById(R.id.button);
+        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
+        FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(this);
+        layoutManager.setFlexDirection(FlexDirection.ROW);
+        layoutManager.setJustifyContent(JustifyContent.FLEX_START);
+        recyclerView.setLayoutManager(layoutManager);
+
+
         try {
+            ArrayList<String> nodes = new ArrayList<String>();
             InputStream is = getResources().openRawResource(R.raw.book1);
             BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
             String line = br.readLine();
-
             int v = 0;
             while ((line = br.readLine()) != null) {
                 nodes.add(line);
@@ -85,19 +89,18 @@ public class MainActivity extends AppCompatActivity {
             }
             start = max(start, 0);
             boolean[] visited = new boolean[v];
+//            for(boolean i: visited)
+//                Log.d("Check", String.valueOf(i));
             dfs(visited, start, graph);
-            for (int i = 0; i < order.size(); i++)
+            for (int i = 0; i < order.size(); i++) {
                 Log.d("MAC", map.getKey(order.get(i)).substring(9));
-            btn1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    details dialogFragment=new details();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("row", "0");
-                    dialogFragment.setArguments(bundle);
-                    dialogFragment.show(getSupportFragmentManager(),"details");
-                }
-            });
+                Node n = new Node(map.getKey(order.get(i)).substring(9));
+                nodesList.add(n);
+            }
+
+            NodeAdapter nodeAdapter = new NodeAdapter(nodesList);
+            recyclerView.setAdapter(nodeAdapter);
+
         } catch (Exception e) {
             Log.d("Error", e.toString());
             e.printStackTrace();
@@ -106,4 +109,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
+
 }
+
+

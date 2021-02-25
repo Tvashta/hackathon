@@ -2,6 +2,7 @@ package com.example.firetopology;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.PointF;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.flexbox.FlexDirection;
@@ -116,7 +118,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     RecyclerView recyclerView;
-    static ArrayList<Pair<Integer,Integer>> locations = new ArrayList<Pair<Integer, Integer>>();
     ConstraintLayout constraintLayout;
     @SuppressLint("ResourceType")
     static ArrayList<Pair<Integer, Integer>> locations = new ArrayList<Pair<Integer, Integer>>();
@@ -187,14 +188,6 @@ public class MainActivity extends AppCompatActivity {
             NodeAdapter nodeAdapter = new NodeAdapter(nodesList);
             recyclerView.setAdapter(nodeAdapter);
 
-            new Handler(Looper.getMainLooper()).postDelayed(
-                    new Runnable() {
-                        public void run() {
-                            connectNodes();
-                        }
-                    },
-                    1000);
-
 
             recyclerView.addOnItemTouchListener(new RecyclerTouchListener(this,
                     recyclerView, new ClickListener() {
@@ -263,53 +256,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             Log.d("Error", e.toString());
             e.printStackTrace();
-        }
-    }
-
-    private void connectNodes() {
-        ArrayList<Integer> arrayList = new ArrayList<Integer>();
-        for (int i = 0; i < locations.size(); i++) {
-            if (arrayList.contains(locations.get(i).first)) {
-                break;
-            }
-            arrayList.add(locations.get(i).first);
-        }
-        int rowWidth = locations.get(3).second - locations.get(0).second;
-        int start = locations.get(0).second;
-
-        Log.e("size", nodesList.size() + "");
-        for (int i = 0; i < nodesList.size(); i++) {
-            String neighbourA = nodesList.get(i).getMAC_Neighbour_A();
-            String neighbourB = nodesList.get(i).getMAC_Neighbour_B();
-            Integer indexOfNa, indexOfNb;
-            indexOfNa = map.get(neighbourA);
-            indexOfNb = map.get(neighbourB);
-            int xStart, yStart, xEnd, yEnd;
-            if (indexOfNa != null) {
-                xStart = arrayList.get((i % (arrayList.size())));
-                xEnd = arrayList.get(((indexOfNa.intValue()) % (arrayList.size())));
-                yStart = rowWidth * (1 + ((int) i / 3));
-                yEnd = rowWidth * (1 + ((int) (indexOfNa.intValue()) / 3));
-
-                Log.e("coord",xStart+" "+yStart+"        "+xEnd+" " + yEnd);
-                PointF pointA = new PointF(xStart,yStart);
-                PointF pointB = new PointF(xEnd,yEnd);
-                cclay.addView(new LineView(this, pointA, pointB));
-
-            }
-
-            if (indexOfNb != null) {
-                xStart = arrayList.get((i % (arrayList.size())));
-                xEnd = arrayList.get(((indexOfNb.intValue()) % (arrayList.size())));
-                yStart = rowWidth * (1 + ((int) i / 3));
-                yEnd = rowWidth * (1 + ((int) (indexOfNb.intValue()) / 3));
-
-//                PointF pointA2 = new PointF(xStart,yStart);
-//                PointF pointB2 = new PointF(xEnd,yEnd);
-//                LineView lineView2 = new LineView(this, pointA2, pointB2);
-//                constraintLayout.addView(lineView2);
-            }
-
         }
     }
 

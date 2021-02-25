@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,7 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public TextView mac,version,modeType,nupa,nupb,usba,usbb;
+        public Button up,down,left,right,divleft,divright;
         public ViewHolder(View itemView) {
             super(itemView);
             mac = (TextView) itemView.findViewById(R.id.macadd);
@@ -28,6 +30,12 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
             nupb = itemView.findViewById(R.id.nupb);
             usba = itemView.findViewById(R.id.usba);
             usbb = itemView.findViewById(R.id.usbb);
+            up = itemView.findViewById(R.id.upbtn);
+            down = itemView.findViewById(R.id.downbtn);
+            left = itemView.findViewById(R.id.leftbtn);
+            right = itemView.findViewById(R.id.rightbtn);
+            divleft = itemView.findViewById(R.id.divleft);
+            divright = itemView.findViewById(R.id.divright);
         }
 
         @Override
@@ -44,16 +52,6 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
 
         View nodeView = inflater.inflate(R.layout.fragment_boxthing,parent,false);
         ViewHolder viewHolder = new ViewHolder(nodeView);
-        int location[] = {0,0};
-        View view = viewHolder.mac;
-        view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                view.getLocationOnScreen(location);
-                MainActivity.locations.add(new Pair<>(location[0],location[1]));
-                Log.e("zzzzzzzzzzzzzzz",location[0]+" "+location[1]);
-            }
-        });
         return viewHolder;
     }
 
@@ -106,6 +104,19 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
         USBA.setText(node.getUSBA());
         USBB.setText(node.getUSBB());
 
+        if(position%3 == 0) {
+            holder.left.setVisibility(View.INVISIBLE);
+            holder.down.setVisibility(View.INVISIBLE);
+            holder.divleft.setVisibility(View.INVISIBLE);
+        }
+        else if(position%3 == 1) {
+            holder.up.setVisibility(View.INVISIBLE);
+            holder.down.setVisibility(View.INVISIBLE);
+        } else {
+            holder.right.setVisibility(View.INVISIBLE);
+            holder.up.setVisibility(View.INVISIBLE);
+            holder.divright.setVisibility(View.INVISIBLE);
+        }
 
     }
 

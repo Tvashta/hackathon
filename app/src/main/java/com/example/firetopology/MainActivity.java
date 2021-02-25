@@ -1,32 +1,22 @@
 package com.example.firetopology;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.PointF;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
-import android.util.Pair;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
-
-import org.xmlpull.v1.XmlPullParser;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -45,7 +35,9 @@ public class MainActivity extends AppCompatActivity {
     View pos1, pos2;
     int p1, p2;
     Button hops;
-    ConstraintLayout cclay;
+    RecyclerView recyclerView;
+    static ArrayList<Integer> order = new ArrayList<>();
+    static BiMap<String, Integer> map = new BiMap<>();
 
     public static class BiMap<K, V> {
         HashMap<K, V> map = new HashMap<>();
@@ -65,8 +57,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    static ArrayList<Integer> order = new ArrayList<>();
-    static BiMap<String, Integer> map = new BiMap<>();
 
     static Node getNode(int row) {
         return nodesList.get(row);
@@ -83,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
         queue.add(u);
         while (queue.size() != 0) {
             u = queue.poll();
-            Log.d("BFS", u + "");
             count++;
             if (u == v) return count;
             Node node = nodesList.get(u);
@@ -106,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
 
     static void dfs(boolean[] visited, int v, ArrayList<ArrayList<Integer>> graph) {
         visited[v] = true;
-//        Log.d("Node", String.valueOf(v));
         order.add(v);
         for (Integer i : graph.get(v)) {
             if (i != null && !visited[i])
@@ -114,22 +102,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-    RecyclerView recyclerView;
-    ConstraintLayout constraintLayout;
-    @SuppressLint("ResourceType")
-    static ArrayList<Pair<Integer, Integer>> locations = new ArrayList<Pair<Integer, Integer>>();
-//    PointF pointA = new PointF(100,600);
-//    PointF pointB = new PointF(500,70);
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        constraintLayout = findViewById(R.id.constrLayout);
-        cclay = findViewById(R.id.clay);
-
-
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(this);
         layoutManager.setFlexDirection(FlexDirection.ROW);
@@ -148,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         try {
-            if(nodesList.size()==0){
+            if (nodesList.size() == 0) {
                 InputStream is = getResources().openRawResource(R.raw.book1);
                 BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
                 String line = br.readLine();
@@ -176,17 +152,13 @@ public class MainActivity extends AppCompatActivity {
                 boolean[] visited = new boolean[v];
                 dfs(visited, start, graph);
                 for (int i = 0; i < order.size(); i++) {
-                    Log.d("MAC", map.getKey(order.get(i)).substring(9));
                     Node n = new Node(map.getKey(order.get(i)).substring(9), nodes.get(order.get(i)).split(",")[6], nodes.get(order.get(i)).split(",")[7], nodes.get(order.get(i)).split(",")[8], nodes.get(order.get(i)).split(",")[13], nodes.get(order.get(i)).split(",")[18], nodes.get(order.get(i)).split(",")[19], nodes.get(order.get(i)).split(",")[1], nodes.get(order.get(i)).split(",")[2], nodes.get(order.get(i)).split(",")[3], nodes.get(order.get(i)).split(",")[4]);
                     nodesList.add(n);
                 }
             }
 
-
             NodeAdapter nodeAdapter = new NodeAdapter(nodesList);
             recyclerView.setAdapter(nodeAdapter);
-
-
             recyclerView.addOnItemTouchListener(new RecyclerTouchListener(this,
                     recyclerView, new ClickListener() {
                 @Override
@@ -196,23 +168,18 @@ public class MainActivity extends AppCompatActivity {
                     bundle.putString("row", String.valueOf(position));
                     dialogFragment.setArguments(bundle);
                     dialogFragment.show(getSupportFragmentManager(), "details");
-                    //Values are passing to activity & to fragment as well
-                    Toast.makeText(MainActivity.this, "Single Click on position        :" + position,
-                            Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void onLongClick(View view, int position) {
                     view = view.findViewById(R.id.redbg);
-                    if(pos1==view)
-                    {
-                        pos1.setPadding(0,0,0,0);
-                        if(pos2!=null)
-                        {
-                            pos1=pos2;
-                            p1=p2;
-                            pos2=null;
-                            p2=-1;
+                    if (pos1 == view) {
+                        pos1.setPadding(0, 0, 0, 0);
+                        if (pos2 != null) {
+                            pos1 = pos2;
+                            p1 = p2;
+                            pos2 = null;
+                            p2 = -1;
                         }
                     } else if (pos2 == view) {
                         pos2.setPadding(0, 0, 0, 0);
@@ -307,8 +274,6 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
-
-
 }
 
 

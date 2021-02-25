@@ -29,7 +29,6 @@
         android:layout_marginBottom="13dp"
         android:text="Find hops"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/scrollView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

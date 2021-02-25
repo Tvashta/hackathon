@@ -1,9 +1,13 @@
 package com.example.firetopology;
 
 import android.os.Bundle;
+import android.telecom.Call;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -16,6 +20,8 @@ import static java.lang.Math.max;
 
 
 public class MainActivity extends AppCompatActivity {
+    Button btn1;
+    static ArrayList<String> nodes = new ArrayList<>();
     public static class BiMap<K, V> {
         HashMap<K, V> map = new HashMap<>();
         HashMap<V, K> inversedMap = new HashMap<>();
@@ -35,7 +41,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     static ArrayList<Integer> order = new ArrayList<>();
-
+    static String getNode(int row){
+        return nodes.get(row);
+    }
     static void dfs(boolean[] visited, int v, ArrayList<ArrayList<Integer>> graph) {
         visited[v] = true;
         Log.d("Node", String.valueOf(v));
@@ -50,11 +58,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        btn1=findViewById(R.id.button);
         try {
             InputStream is = getResources().openRawResource(R.raw.book1);
             BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
             String line = br.readLine();
-            ArrayList<String> nodes = new ArrayList<>();
+
             int v = 0;
             while ((line = br.readLine()) != null) {
                 nodes.add(line);
@@ -76,11 +85,19 @@ public class MainActivity extends AppCompatActivity {
             }
             start = max(start, 0);
             boolean[] visited = new boolean[v];
-//            for(boolean i: visited)
-//                Log.d("Check", String.valueOf(i));
             dfs(visited, start, graph);
             for (int i = 0; i < order.size(); i++)
                 Log.d("MAC", map.getKey(order.get(i)).substring(9));
+            btn1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    details dialogFragment=new details();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("row", "0");
+                    dialogFragment.setArguments(bundle);
+                    dialogFragment.show(getSupportFragmentManager(),"details");
+                }
+            });
         } catch (Exception e) {
             Log.d("Error", e.toString());
             e.printStackTrace();

@@ -1,14 +1,22 @@
 package com.example.firetopology;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
+import android.util.Pair;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.flexbox.FlexDirection;
@@ -64,12 +72,28 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    BiMap<String, Integer> map = new BiMap<>();
+    RecyclerView recyclerView;
+    static ArrayList<Pair<Integer,Integer>> locations = new ArrayList<Pair<Integer, Integer>>();
+    ConstraintLayout constraintLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        constraintLayout = findViewById(R.id.constrLayout);
+        Bitmap bitmap = Bitmap.createBitmap(10, 700, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        canvas.drawColor(Color.RED);
+        Paint paint = new Paint();
+        paint.setColor(Color.RED);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(8);
+        paint.setAntiAlias(true);
+        int offset = 50;
+        canvas.drawLine(
+                offset, canvas.getHeight() / 2, canvas.getWidth() - offset, canvas.getHeight() / 2, paint);
+        recyclerView.addView();
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(this);
         layoutManager.setFlexDirection(FlexDirection.ROW);
         layoutManager.setFlexWrap(FlexWrap.WRAP);
@@ -87,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                 v++;
             }
             ArrayList<ArrayList<Integer>> graph = new ArrayList<>(v);
-            BiMap<String, Integer> map = new BiMap<>();
+
             for (int i = 0; i < v; i++) {
                 graph.add(new ArrayList<>());
                 map.put(nodes.get(i).split(",")[0], i);
@@ -102,8 +126,6 @@ public class MainActivity extends AppCompatActivity {
             }
             start = max(start, 0);
             boolean[] visited = new boolean[v];
-//            for(boolean i: visited)
-//                Log.d("Check", String.valueOf(i));
             dfs(visited, start, graph);
             for (int i = 0; i < order.size(); i++) {
                 Log.d("MAC", map.getKey(order.get(i)).substring(9));
@@ -113,6 +135,16 @@ public class MainActivity extends AppCompatActivity {
 
             NodeAdapter nodeAdapter = new NodeAdapter(nodesList);
             recyclerView.setAdapter(nodeAdapter);
+
+            new Handler(Looper.getMainLooper()).postDelayed(
+                    new Runnable() {
+                        public void run() {
+                            connectNodes();
+                        }
+                    },
+                    1000);
+
+
             recyclerView.addOnItemTouchListener(new RecyclerTouchListener(this,
                     recyclerView, new ClickListener() {
                 @Override
@@ -139,6 +171,55 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+    }
+
+    private void connectNodes() {
+        ArrayList<Integer> arrayList = new ArrayList<Integer>();
+        for(int i=0;i<locations.size();i++) {
+            if(arrayList.contains(locations.get(i).first)) {
+                break;
+            }
+            arrayList.add(locations.get(i).first);
+        }
+        int rowWidth = locations.get(1).second - locations.get(0).second;
+
+
+        Log.e("size",nodesList.size()+"");
+        for(int i=0; i<nodesList.size();i++) {
+            String neighbourA = nodesList.get(i).getMAC_Neighbour_A();
+            String neighbourB = nodesList.get(i).getMAC_Neighbour_B();
+            Integer indexOfNa, indexOfNb;
+            indexOfNa = map.get(neighbourA);
+            indexOfNb = map.get(neighbourB);
+
+            Paint myPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+            myPaint.setStrokeWidth(4);
+            myPaint.setColor(Color.RED);   //color.RED
+            Canvas canvas = new Canvas();
+            //Log.e("ind",indexOfNa+"");
+            int xStart, yStart, xEnd, yEnd;
+            if(indexOfNa != null) {
+                xStart = arrayList.get((i%(arrayList.size())));
+                xEnd = arrayList.get(((indexOfNa.intValue())%(arrayList.size())));
+                yStart = rowWidth*(1+((int)i/3));
+                yEnd = rowWidth*(1+((int)(indexOfNa.intValue())/3));
+
+                canvas.drawLine(xStart, yStart, xEnd,yEnd, myPaint);
+            }
+
+            if(indexOfNb != null) {
+                xStart = arrayList.get((i%(arrayList.size())));
+                xEnd = arrayList.get(((indexOfNb.intValue())%(arrayList.size())));
+                yStart = rowWidth*(1+((int)i/3));
+                yEnd = rowWidth*(1+((int)(indexOfNb.intValue())/3));
+
+                canvas.drawLine(xStart, yStart, xEnd,yEnd, myPaint);
+            }
+
+
+
+
+        }
     }
 
     public static interface ClickListener {
@@ -192,6 +273,21 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    class DrawView extends View {
+        Paint paint = new Paint();
+
+        public DrawView(Context context) {
+            super(context);
+            paint.setColor(Color.BLUE);
+        }
+
+
+        public void onDraw(Canvas canvas, Integer startX, Integer startY, Integer stopX, Integer stopY) {
+            super.onDraw(canvas);
+            canvas.drawLine(startX, startY, stopX, stopY, paint);
+
+        }
+    }
 }
 
 

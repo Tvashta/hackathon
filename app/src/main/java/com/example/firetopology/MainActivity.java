@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
 
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(this);
         layoutManager.setFlexDirection(FlexDirection.ROW);
+        layoutManager.setFlexWrap(FlexWrap.WRAP_REVERSE);
         layoutManager.setJustifyContent(JustifyContent.FLEX_START);
         recyclerView.setLayoutManager(layoutManager);
 

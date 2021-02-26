@@ -35,7 +35,7 @@
                 android:id="@+id/nupb"
                 android:layout_width="18dp"
                 android:layout_height="13dp"
-                android:background="@color/black"
+                android:background="#BFFAC0"
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="8sp"

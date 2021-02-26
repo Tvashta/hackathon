@@ -35,7 +35,14 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
             port1=itemView.findViewById(R.id.port1);
             port2=itemView.findViewById(R.id.port2);
             middle = itemView.findViewById(R.id.divmiddle);
+            downleft = itemView.findViewById(R.id.divleftdown);
             downright = itemView.findViewById(R.id.divrightdown);
+        }
+
+        @Override
+        public void onClick(View view) {
+
+        }
     }
 
     @NonNull
@@ -158,10 +165,18 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
                     holder.left.setBackgroundColor(Color.parseColor("#FFF200"));
                     holder.middle.setBackgroundColor(Color.parseColor("#FFF200"));
                     holder.upright.setBackgroundColor(Color.parseColor("#FFF200"));
+                }
+                else {
+                    holder.right.setBackgroundColor(Color.parseColor("#FFF200"));
+                    holder.upright.setBackgroundColor(Color.parseColor("#FFF200"));
+                }
+            } else {
+                if(holder.port1.getText().toString().equalsIgnoreCase("A")) {
                     holder.left.setBackgroundColor(Color.parseColor("#000000"));
-                    holder.up.setBackgroundColor(Color.parseColor("#000000"));
-                else
->>>>>>> d17044a7743a882a5eea2560bc3b174ebc3c75e1
+                    holder.middle.setBackgroundColor(Color.parseColor("#000000"));
+                    holder.upright.setBackgroundColor(Color.parseColor("#000000"));
+                }
+                else {
                     holder.right.setBackgroundColor(Color.parseColor("#000000"));
                     holder.upright.setBackgroundColor(Color.parseColor("#000000"));
                 }

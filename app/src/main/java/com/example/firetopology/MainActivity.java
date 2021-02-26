@@ -11,7 +11,6 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -272,8 +271,7 @@ public class MainActivity extends AppCompatActivity {
                         hops.setVisibility(View.VISIBLE);
                     else
                         hops.setVisibility(View.INVISIBLE);
-                    Toast.makeText(MainActivity.this, "Long press on position :" + position,
-                            Toast.LENGTH_LONG).show();
+
                 }
             }));
 

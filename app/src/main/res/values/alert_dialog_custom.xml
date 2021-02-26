@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="AlertDialogCustom" parent="@android:style/Theme.Dialog">
-        <item name="android:textColor">#776952</item>
+        <item name="android:textColor">#FFFFFF</item>
         <item name="android:gravity">left</item>
-        <item name="android:textColorPrimary">#776952</item>
+        <item name="android:textColorPrimary">#FFFEFC</item>
         <item name="android:backgroundTint">#BCF3C371</item>
         <item name="android:background">#FFA200</item>
         <item name="android:fontFamily">@font/muli_black</item>

@@ -2,7 +2,11 @@ package com.example.firetopology;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Layout;
+import android.text.SpannableString;
+import android.text.style.AlignmentSpan;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -131,8 +135,17 @@ public class MainActivity extends AppCompatActivity {
         layoutManager.setJustifyContent(JustifyContent.FLEX_START);
         recyclerView.setLayoutManager(layoutManager);
         hops = findViewById(R.id.hops);
-        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-        alertDialog.setTitle("Number of Hops");
+//        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.AlertDialogCustom));
+        AlertDialog alertDialog =  new AlertDialog.Builder(
+                new ContextThemeWrapper(this, R.style.AlertDialogCustom)).create();
+        SpannableString Title = new SpannableString("Number Of Hops");
+        Title.setSpan(
+                new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER),
+                0,
+                Title.length(),
+                0
+        );
+        alertDialog.setTitle(Title);
 
         hops.setOnClickListener(new View.OnClickListener() {
             @Override

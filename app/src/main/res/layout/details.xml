@@ -135,7 +135,7 @@
                 android:id="@+id/applnv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="70dp"
+                android:layout_marginStart="40dp"
                 android:layout_marginTop="176dp"
                 android:text="Applicationversion"
                 android:textSize="20sp"
@@ -158,11 +158,11 @@
                 android:id="@+id/nupB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="332dp"
-                android:layout_marginEnd="40dp"
                 android:text="NUP B"
                 android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/nupb_t"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -180,12 +180,11 @@
                 android:id="@+id/nupb_t"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="184dp"
+                android:layout_marginStart="180dp"
                 android:layout_marginTop="332dp"
                 android:fontFamily="@font/muli_black"
                 android:text="B:"
                 android:textSize="20sp"
-                app:layout_constraintEnd_toStartOf="@+id/nupB"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -205,11 +204,11 @@
                 android:id="@+id/usbB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="388dp"
-                android:layout_marginEnd="40dp"
                 android:text="USB B"
                 android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/usbb_t"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -239,12 +238,11 @@
                 android:id="@+id/mB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="184dp"
+                android:layout_marginStart="180dp"
                 android:layout_marginTop="276dp"
                 android:fontFamily="@font/muli_black"
                 android:text="B:"
                 android:textSize="20sp"
-                app:layout_constraintEnd_toStartOf="@+id/modeB"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -264,11 +262,11 @@
                 android:id="@+id/modeB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="276dp"
-                android:layout_marginEnd="40dp"
                 android:text="Port B"
                 android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/mB"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -310,12 +308,11 @@
                 android:id="@+id/usbb_t"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="184dp"
+                android:layout_marginStart="180dp"
                 android:layout_marginTop="388dp"
                 android:fontFamily="@font/muli_black"
                 android:text="B:"
                 android:textSize="20sp"
-                app:layout_constraintEnd_toStartOf="@+id/usbB"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
         });
         try {
             if (nodesList.size() == 0) {
-                InputStream is = getResources().openRawResource(R.raw.book2);
+                InputStream is = getResources().openRawResource(R.raw.book1);
                 BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
                 String line = br.readLine();
                 int v = 0;

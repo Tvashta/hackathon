@@ -110,6 +110,16 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
             holder.right.setVisibility(View.VISIBLE);
             holder.up.setVisibility(View.VISIBLE);
             holder.divright.setVisibility(View.VISIBLE);
+            if(modeB.equalsIgnoreCase("Fiber")) {
+                holder.right.setBackgroundColor(Color.parseColor("#FFF200"));
+            } else {
+                holder.right.setBackgroundColor(Color.parseColor("#BDB7AB"));
+            }
+            if(modeA.equalsIgnoreCase("Fiber")) {
+                holder.up.setBackgroundColor(Color.parseColor("#FFF200"));
+            } else {
+                holder.up.setBackgroundColor(Color.parseColor("#BDB7AB"));
+            }
             Log.d("Holder", String.valueOf(MainActivity.loops));
             if(MainActivity.loops.contains(position)){
                 if(!MainActivity.loop.contains(position))
@@ -124,6 +134,16 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
             }
 
         } else if (position % 3 == 1) {
+            if(modeA.equalsIgnoreCase("Fiber")) {
+                holder.left.setBackgroundColor(Color.parseColor("#FFF200"));
+            } else {
+                holder.left.setBackgroundColor(Color.parseColor("#BDB7AB"));
+            }
+            if(modeB.equalsIgnoreCase("Fiber")) {
+                holder.right.setBackgroundColor(Color.parseColor("#FFF200"));
+            } else {
+                holder.right.setBackgroundColor(Color.parseColor("#BDB7AB"));
+            }
             holder.up.setVisibility(View.INVISIBLE);
             holder.down.setVisibility(View.GONE);
             holder.right.setVisibility(View.VISIBLE);
@@ -143,6 +163,16 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
                 holder.right.setVisibility(View.INVISIBLE);
             }
         } else {
+            if(modeA.equalsIgnoreCase("Fiber")) {
+                holder.left.setBackgroundColor(Color.parseColor("#FFF200"));
+            } else {
+                holder.left.setBackgroundColor(Color.parseColor("#BDB7AB"));
+            }
+            if(modeB.equalsIgnoreCase("Fiber")) {
+                holder.down.setBackgroundColor(Color.parseColor("#FFF200"));
+            } else {
+                holder.down.setBackgroundColor(Color.parseColor("#BDB7AB"));
+            }
             holder.right.setVisibility(View.GONE);
             holder.up.setVisibility(View.GONE);
             holder.divright.setVisibility(View.GONE);

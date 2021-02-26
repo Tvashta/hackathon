@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView mac, version, modeType, nupa, nupb, usba, usbb;
+        public TextView mac, version, modeType, nupa, nupb, usba, usbb, port1,port2;
         public Button up, down, left, right, divleft, divright;
         public ViewHolder(View itemView) {
             super(itemView);
@@ -37,6 +37,8 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
             right = itemView.findViewById(R.id.rightbtn);
             divleft = itemView.findViewById(R.id.divleft);
             divright = itemView.findViewById(R.id.divright);
+            port1=itemView.findViewById(R.id.port1);
+            port2=itemView.findViewById(R.id.port2);
         }
 
         @Override
@@ -69,6 +71,32 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
             appVersion.setText("B");
             appVersion.setBackgroundResource(R.drawable.circle_textb);
         }
+        String neighbourA = node.getMAC_Neighbour_A().substring(9);
+        String neighbourB = node.getMAC_Neighbour_B().substring(9);
+        int f=1;
+        if(position>0 && MainActivity.nodesList.get(position - 1).getMAC().equals(neighbourA))
+        {
+            holder.port1.setText("A");
+            f=1;
+        }
+        else if(position<MainActivity.nodesList.size()-1 && MainActivity.nodesList.get(position + 1).getMAC().equals(neighbourA))
+        {
+            holder.port2.setText("A");
+            f=0;
+        }
+        if(position>0 && MainActivity.nodesList.get(position - 1).getMAC().equals(neighbourB))
+        {
+            holder.port1.setText("B");
+            f=0;
+        }
+        else if(position<MainActivity.nodesList.size()-1 && MainActivity.nodesList.get(position + 1).getMAC().equals(neighbourB))
+        {
+            holder.port2.setText("B");
+            f=1;
+        }
+        MainActivity.lr.add(f);
+
+
         TextView type = holder.modeType;
         String modeA = node.getModePortA();
         String modeB = node.getModePortB();

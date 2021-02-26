@@ -2,7 +2,11 @@ package com.example.firetopology;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Layout;
+import android.text.SpannableString;
+import android.text.style.AlignmentSpan;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -39,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     static ArrayList<Integer> order = new ArrayList<>();
     static ArrayList<Integer> loops = new ArrayList<>();
     static ArrayList<Integer> loop = new ArrayList<>();
+    static ArrayList<Integer> lr = new ArrayList<>();
     public static class BiMap<K, V> {
         HashMap<K, V> map = new HashMap<>();
         HashMap<V, K> inversedMap = new HashMap<>();
@@ -76,8 +81,11 @@ public class MainActivity extends AppCompatActivity {
             count++;
             if (u == v) return count;
             Node node = nodesList.get(u);
+            Log.d("LR", lr.get(u)+"");
             if (dir == 0) {
-                String ma=node.getMAC_Neighbour_B();
+                String ma=node.getMAC_Neighbour_B();;
+                if(lr.get(u)==0)
+                    ma=node.getMAC_Neighbour_A();
                 if(ma.length()>9)
                     ma=ma.substring(9);
                 Integer n = map1.get(ma);
@@ -87,7 +95,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             } else {
                 String ma=node.getMAC_Neighbour_A();
-                Log.d("MACA", node.getMAC_Neighbour_A());
+                if(lr.get(u)==0)
+                    ma=node.getMAC_Neighbour_B();
                 if(ma.length()>9)
                     ma=ma.substring(9);
                 Integer n = map1.get(ma);
@@ -138,13 +147,22 @@ public class MainActivity extends AppCompatActivity {
         layoutManager.setJustifyContent(JustifyContent.FLEX_START);
         recyclerView.setLayoutManager(layoutManager);
         hops = findViewById(R.id.hops);
-        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-        alertDialog.setTitle("Number of Hops");
+//        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.AlertDialogCustom));
+        AlertDialog alertDialog =  new AlertDialog.Builder(
+                new ContextThemeWrapper(this, R.style.AlertDialogCustom)).create();
+        SpannableString Title = new SpannableString("Number Of Hops");
+        Title.setSpan(
+                new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER),
+                0,
+                Title.length(),
+                0
+        );
+        alertDialog.setTitle(Title);
 
         hops.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                alertDialog.setMessage("From " + nodesList.get(p1).getMAC() + " to " + nodesList.get(p2).getMAC() + "\n\t\tVia Port A: " + (bfs(p1, p2, 0)-1) + "\n\t\tVia Port B: " + (bfs(p1, p2, 1) -1)+ "\nFrom " + nodesList.get(p2).getMAC() + " to " + nodesList.get(p1).getMAC() + "\n\t\tVia Port A: " + (bfs(p2, p1, 0)-1) + "\n\t\tVia Port B: " + (bfs(p2, p1, 1)-1));
+                alertDialog.setMessage("From " + nodesList.get(p1).getMAC() + " to " + nodesList.get(p2).getMAC() + "\n\t\tRight: " + (bfs(p1, p2, 0)-1) + "\n\t\tLeft: " + (bfs(p1, p2, 1) -1)+ "\nFrom " + nodesList.get(p2).getMAC() + " to " + nodesList.get(p1).getMAC() + "\n\t\tRight: " + (bfs(p2, p1, 0)-1) + "\n\t\tLeft: " + (bfs(p2, p1, 1)-1));
                 alertDialog.show();
             }
         });

@@ -262,8 +262,12 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
 
             }
         }
-        if(position==nodes.size()-1)
+        if(position==MainActivity.nodesList.size()-1) {
             holder.right.setVisibility(View.INVISIBLE);
+            holder.divright.setVisibility(View.INVISIBLE);
+            holder.down.setVisibility(View.VISIBLE);
+        }
+
 
     }
 

@@ -79,6 +79,12 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
         {
             holder.port2.setText("A");
         }
+
+        if(position == 0 || position == MainActivity.nodesList.size()-1) {
+            holder.port1.setText("A");
+            holder.port2.setText("B");
+        }
+
         if(position>0 && MainActivity.nodesList.get(position - 1).getMAC().equals(neighbourB))
         {
             holder.port1.setText("B");
@@ -132,14 +138,27 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
             holder.up.setVisibility(View.VISIBLE);
             holder.divright.setVisibility(View.VISIBLE);
             if(modeB.equalsIgnoreCase("Fiber")) {
-                holder.right.setBackgroundColor(Color.parseColor("#FFF200"));
+                if(holder.up.getText().toString().equalsIgnoreCase("B"))
+                    holder.left.setBackgroundColor(Color.parseColor("#FFF200"));
+                else
+                    holder.right.setBackgroundColor(Color.parseColor("#FFF200"));
             } else {
-                holder.right.setBackgroundColor(Color.parseColor("#BDB7AB"));
+                if(holder.port1.getText().toString().equalsIgnoreCase("B"))
+                    holder.up.setBackgroundColor(Color.parseColor("#000000"));
+                else
+                    holder.right.setBackgroundColor(Color.parseColor("#000000"));
+
             }
             if(modeA.equalsIgnoreCase("Fiber")) {
-                holder.up.setBackgroundColor(Color.parseColor("#FFF200"));
+                if(holder.port1.getText().toString().equalsIgnoreCase("A"))
+                    holder.up.setBackgroundColor(Color.parseColor("#FFF200"));
+                else
+                    holder.right.setBackgroundColor(Color.parseColor("#FFF200"));
             } else {
-                holder.up.setBackgroundColor(Color.parseColor("#BDB7AB"));
+                if(holder.port1.getText().toString().equalsIgnoreCase("A"))
+                    holder.up.setBackgroundColor(Color.parseColor("#000000"));
+                else
+                    holder.right.setBackgroundColor(Color.parseColor("#000000"));
             }
             Log.d("Holder", String.valueOf(MainActivity.loops));
             if(MainActivity.loops.contains(position)){
@@ -156,14 +175,26 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
 
         } else if (position % 3 == 1) {
             if(modeA.equalsIgnoreCase("Fiber")) {
-                holder.left.setBackgroundColor(Color.parseColor("#FFF200"));
+                if(holder.port1.getText().toString().equalsIgnoreCase("A"))
+                    holder.left.setBackgroundColor(Color.parseColor("#FFF200"));
+                else
+                    holder.right.setBackgroundColor(Color.parseColor("#FFF200"));
             } else {
-                holder.left.setBackgroundColor(Color.parseColor("#BDB7AB"));
+                if(holder.port1.getText().toString().equalsIgnoreCase("A"))
+                    holder.left.setBackgroundColor(Color.parseColor("#000000"));
+                else
+                    holder.right.setBackgroundColor(Color.parseColor("#000000"));
             }
             if(modeB.equalsIgnoreCase("Fiber")) {
-                holder.right.setBackgroundColor(Color.parseColor("#FFF200"));
+                if(holder.port1.getText().toString().equalsIgnoreCase("B"))
+                    holder.left.setBackgroundColor(Color.parseColor("#FFF200"));
+                else
+                    holder.right.setBackgroundColor(Color.parseColor("#FFF200"));
             } else {
-                holder.right.setBackgroundColor(Color.parseColor("#BDB7AB"));
+                if(holder.port1.getText().toString().equalsIgnoreCase("B"))
+                    holder.left.setBackgroundColor(Color.parseColor("#000000"));
+                else
+                    holder.right.setBackgroundColor(Color.parseColor("#000000"));
             }
             holder.up.setVisibility(View.INVISIBLE);
             holder.down.setVisibility(View.GONE);
@@ -185,14 +216,26 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
             }
         } else {
             if(modeA.equalsIgnoreCase("Fiber")) {
-                holder.left.setBackgroundColor(Color.parseColor("#FFF200"));
+                if(holder.port1.getText().toString().equalsIgnoreCase("A"))
+                    holder.left.setBackgroundColor(Color.parseColor("#FFF200"));
+                else
+                    holder.down.setBackgroundColor(Color.parseColor("#FFF200"));
             } else {
-                holder.left.setBackgroundColor(Color.parseColor("#BDB7AB"));
+                if(holder.port1.getText().toString().equalsIgnoreCase("A"))
+                    holder.left.setBackgroundColor(Color.parseColor("#000000"));
+                else
+                    holder.down.setBackgroundColor(Color.parseColor("#000000"));
             }
             if(modeB.equalsIgnoreCase("Fiber")) {
-                holder.down.setBackgroundColor(Color.parseColor("#FFF200"));
+                if(holder.port1.getText().toString().equalsIgnoreCase("B"))
+                    holder.left.setBackgroundColor(Color.parseColor("#FFF200"));
+                else
+                    holder.down.setBackgroundColor(Color.parseColor("#FFF200"));
             } else {
-                holder.down.setBackgroundColor(Color.parseColor("#BDB7AB"));
+                if(holder.port1.getText().toString().equalsIgnoreCase("B"))
+                    holder.left.setBackgroundColor(Color.parseColor("#000000"));
+                else
+                    holder.down.setBackgroundColor(Color.parseColor("#000000"));
             }
             holder.right.setVisibility(View.GONE);
             holder.up.setVisibility(View.GONE);

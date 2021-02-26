@@ -2,6 +2,7 @@ package com.example.firetopology;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -62,10 +64,10 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
         TextView appVersion = holder.version;
         if (Double.parseDouble(node.getApplicationVersion()) < 30) {
             appVersion.setText("A");
-            appVersion.setBackgroundColor(Color.parseColor("#EC4319"));
+            appVersion.setBackgroundResource(R.drawable.circle_texta);
         } else {
             appVersion.setText("B");
-            appVersion.setBackgroundColor(Color.parseColor("#038A34"));
+            appVersion.setBackgroundResource(R.drawable.circle_textb);
         }
         TextView type = holder.modeType;
         String modeA = node.getModePortA();
@@ -83,13 +85,13 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
 
         if (flag.equalsIgnoreCase("00")) {
             type.setText("V");
-            type.setBackgroundColor(Color.parseColor("#952003"));
+            type.setBackgroundResource(R.drawable.circle_textv);
         } else if (flag.equalsIgnoreCase("01") || flag.equalsIgnoreCase("10")) {
             type.setText("M");
-            type.setBackgroundColor(Color.parseColor("#9866C5"));
+            appVersion.setBackgroundResource(R.drawable.circle_textm);
         } else {
             type.setText("F");
-            type.setBackgroundColor(Color.parseColor("#27C629"));
+            appVersion.setBackgroundResource(R.drawable.circle_textf);
         }
 
         TextView NUPA = holder.nupa;

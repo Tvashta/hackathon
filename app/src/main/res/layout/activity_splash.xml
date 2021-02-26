@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:fontFamily="@font/muli_black"
-        android:text="The Tired Trinity's"
+        android:text="TheTiredTrinity's"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="30dp"

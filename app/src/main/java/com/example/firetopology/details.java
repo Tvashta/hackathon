@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.fragment.app.DialogFragment;
 
 public class details extends DialogFragment {
-    TextView mac, a,b,av,pa,pb,nupa,nupb,usba,usbb,ip;
+    TextView mac, a, b, av, pa, pb, nupa, nupb, usba, usbb, ip;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -19,13 +19,13 @@ public class details extends DialogFragment {
         Node s = MainActivity.getNode(i);
         mac = (TextView) view.findViewById(R.id.mac_text);
         a = (TextView) view.findViewById(R.id.maca);
-        b=(TextView)view.findViewById(R.id.macb);
+        b = (TextView) view.findViewById(R.id.macb);
         av = (TextView) view.findViewById(R.id.applnv);
         pa = (TextView) view.findViewById(R.id.modeA);
-        pb=(TextView)view.findViewById(R.id.modeB);
+        pb = (TextView) view.findViewById(R.id.modeB);
         nupa = (TextView) view.findViewById(R.id.nupA);
         nupb = (TextView) view.findViewById(R.id.nupB);
-        usba=(TextView)view.findViewById(R.id.usbA);
+        usba = (TextView) view.findViewById(R.id.usbA);
         usbb = (TextView) view.findViewById(R.id.usbB);
         ip = (TextView) view.findViewById(R.id.iptext);
         mac.setText(s.getMAC());

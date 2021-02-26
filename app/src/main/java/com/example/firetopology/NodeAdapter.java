@@ -35,14 +35,7 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
             port1=itemView.findViewById(R.id.port1);
             port2=itemView.findViewById(R.id.port2);
             middle = itemView.findViewById(R.id.divmiddle);
-            downleft = itemView.findViewById(R.id.divleftdown);
             downright = itemView.findViewById(R.id.divrightdown);
-        }
-
-        @Override
-        public void onClick(View view) {
-
-        }
     }
 
     @NonNull
@@ -71,32 +64,26 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
         }
         String neighbourA = node.getMAC_Neighbour_A().substring(9);
         String neighbourB = node.getMAC_Neighbour_B().substring(9);
-        int f=1;
-        if(position>0 && MainActivity.nodesList.get(position - 1).getMAC().equals(neighbourA))
-        {
+        int f = 1;
+        if (position > 0 && MainActivity.nodesList.get(position - 1).getMAC().equals(neighbourA)) {
             holder.port1.setText("A");
-            f=1;
-        }
-        else if(position<MainActivity.nodesList.size()-1 && MainActivity.nodesList.get(position + 1).getMAC().equals(neighbourA))
-        {
+            f = 1;
+        } else if (position < MainActivity.nodesList.size() - 1 && MainActivity.nodesList.get(position + 1).getMAC().equals(neighbourA)) {
             holder.port2.setText("A");
-            f=0;
+            f = 0;
         }
 
-        if(position == 0 || position == MainActivity.nodesList.size()-1) {
+        if (position == 0 || position == MainActivity.nodesList.size() - 1) {
             holder.port1.setText("A");
             holder.port2.setText("B");
         }
 
-        if(position>0 && MainActivity.nodesList.get(position - 1).getMAC().equals(neighbourB))
-        {
+        if (position > 0 && MainActivity.nodesList.get(position - 1).getMAC().equals(neighbourB)) {
             holder.port1.setText("B");
-            f=0;
-        }
-        else if(position<MainActivity.nodesList.size()-1 && MainActivity.nodesList.get(position + 1).getMAC().equals(neighbourB))
-        {
+            f = 0;
+        } else if (position < MainActivity.nodesList.size() - 1 && MainActivity.nodesList.get(position + 1).getMAC().equals(neighbourB)) {
             holder.port2.setText("B");
-            f=1;
+            f = 1;
         }
         MainActivity.lr.add(f);
 
@@ -171,18 +158,10 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
                     holder.left.setBackgroundColor(Color.parseColor("#FFF200"));
                     holder.middle.setBackgroundColor(Color.parseColor("#FFF200"));
                     holder.upright.setBackgroundColor(Color.parseColor("#FFF200"));
-                }
-                else {
-                    holder.right.setBackgroundColor(Color.parseColor("#FFF200"));
-                    holder.upright.setBackgroundColor(Color.parseColor("#FFF200"));
-                }
-            } else {
-                if(holder.port1.getText().toString().equalsIgnoreCase("A")) {
                     holder.left.setBackgroundColor(Color.parseColor("#000000"));
-                    holder.middle.setBackgroundColor(Color.parseColor("#000000"));
-                    holder.upright.setBackgroundColor(Color.parseColor("#000000"));
-                }
-                else {
+                    holder.up.setBackgroundColor(Color.parseColor("#000000"));
+                else
+>>>>>>> d17044a7743a882a5eea2560bc3b174ebc3c75e1
                     holder.right.setBackgroundColor(Color.parseColor("#000000"));
                     holder.upright.setBackgroundColor(Color.parseColor("#000000"));
                 }
@@ -196,7 +175,7 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
                 //holder.divright.setVisibility(View.INVISIBLE);
 
             }
-            if(MainActivity.loops.contains(position+1)){
+            if (MainActivity.loops.contains(position + 1)) {
                 holder.right.setVisibility(View.INVISIBLE);
             }
 
@@ -256,7 +235,7 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
 //                    holder.up.setVisibility(View.VISIBLE);
                 holder.left.setVisibility(View.INVISIBLE);
             }
-            if(MainActivity.loops.contains(position+1)){
+            if (MainActivity.loops.contains(position + 1)) {
                 holder.right.setVisibility(View.INVISIBLE);
             }
         } else {
@@ -317,7 +296,7 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
 
             }
         }
-        if(position==MainActivity.nodesList.size()-1) {
+        if (position == MainActivity.nodesList.size() - 1) {
             holder.right.setVisibility(View.INVISIBLE);
             //holder.divright.setVisibility(View.INVISIBLE);
         }

@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
     Button hops;
     RecyclerView recyclerView;
     static ArrayList<Integer> order = new ArrayList<>();
-    static BiMap<String, Integer> map = new BiMap<>();
     static ArrayList<Integer> loops = new ArrayList<>();
     static ArrayList<Integer> loop = new ArrayList<>();
     public static class BiMap<K, V> {
@@ -78,13 +77,20 @@ public class MainActivity extends AppCompatActivity {
             if (u == v) return count;
             Node node = nodesList.get(u);
             if (dir == 0) {
-                Integer n = map1.get(node.getMAC_Neighbour_B().substring(9));
+                String ma=node.getMAC_Neighbour_B();
+                if(ma.length()>9)
+                    ma=ma.substring(9);
+                Integer n = map1.get(ma);
                 if (n != null && !visited[n]) {
                     visited[n] = true;
                     queue.add(n);
                 }
             } else {
-                Integer n = map1.get(node.getMAC_Neighbour_A().substring(9));
+                String ma=node.getMAC_Neighbour_A();
+                Log.d("MACA", node.getMAC_Neighbour_A());
+                if(ma.length()>9)
+                    ma=ma.substring(9);
+                Integer n = map1.get(ma);
                 if (n != null && !visited[n]) {
                     visited[n] = true;
                     queue.add(n);
@@ -124,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        BiMap<String, Integer> map = new BiMap<>();
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(this);
         layoutManager.setFlexDirection(FlexDirection.ROW);

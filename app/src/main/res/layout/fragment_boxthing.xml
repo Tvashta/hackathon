@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="130dp"
-    android:layout_height="110dp"
+    android:layout_height="100dp"
     android:layout_margin="0dp"
     android:layout_marginRight="0dp"
     android:background="#FFFFFF"
@@ -21,104 +22,73 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
             android:layout_width="100dp"
-            android:layout_height="80dp"
-            android:background="@color/black"
+            android:layout_height="70dp"
+            android:background="@drawable/board"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/version"
-                android:layout_width="18dp"
-                android:layout_height="16dp"
-                android:background="@drawable/circle_texta"
-                android:gravity="center"
-                android:text="A"
-                android:textColor="@android:color/white"
-                android:textSize="10sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.017"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.039" />
-
-            <TextView
-                android:id="@+id/type"
-                android:layout_width="18dp"
-                android:layout_height="17dp"
-                android:background="@drawable/circle_textv"
-                android:gravity="center"
-                android:text="V"
-                android:textColor="@android:color/white"
-                android:textSize="10sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.987"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.047" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
 
             <TextView
                 android:id="@+id/nupb"
-                android:layout_width="30dp"
-                android:layout_height="15dp"
-                android:background="#FFCCD0"
+                android:layout_width="18dp"
+                android:layout_height="13dp"
+                android:background="@color/black"
                 android:gravity="center"
-                android:textColor="@color/black"
-                android:textSize="10sp"
+                android:textColor="@color/white"
+                android:textSize="8sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.728"
+                app:layout_constraintHorizontal_bias="0.494"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.507" />
+                app:layout_constraintVertical_bias="0.253" />
 
             <TextView
                 android:id="@+id/usbb"
-                android:layout_width="30dp"
-                android:layout_height="15dp"
-                android:background="#D4FFCC"
+                android:layout_width="16dp"
+                android:layout_height="12dp"
+                android:background="@color/black"
                 android:gravity="center"
-                android:textColor="@color/black"
-                android:textSize="10sp"
+                android:textColor="@color/white"
+                android:textSize="8sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.728"
+                app:layout_constraintHorizontal_bias="0.92"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.738" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/usba"
-                android:layout_width="30dp"
-                android:layout_height="15dp"
-                android:background="#FFF1CC"
+                android:layout_width="16dp"
+                android:layout_height="12dp"
+                android:background="@color/black"
                 android:gravity="center"
-                android:textColor="@color/black"
-                android:textSize="10sp"
+                android:textColor="@color/white"
+                android:textSize="8sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.3"
+                app:layout_constraintHorizontal_bias="0.92"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.738" />
+                app:layout_constraintVertical_bias="0.242" />
 
             <TextView
                 android:id="@+id/nupa"
-                android:layout_width="30dp"
-                android:layout_height="15dp"
-                android:background="#CCEEFF"
+                android:layout_width="18dp"
+                android:layout_height="13dp"
+                android:background="@color/black"
                 android:gravity="center"
-                android:textColor="@color/black"
-                android:textSize="10sp"
+                android:textColor="@color/white"
+                android:textSize="8sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.3"
+                app:layout_constraintHorizontal_bias="0.279"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.507" />
+                app:layout_constraintVertical_bias="0.25" />
 
             <TextView
                 android:id="@+id/macadd"
@@ -131,10 +101,7 @@
                 android:textSize="10sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.511"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.062" />
+                app:layout_constraintStart_toStartOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -143,7 +110,7 @@
     <Button
         android:id="@+id/downbtn"
         android:layout_width="21dp"
-        android:layout_height="9dp"
+        android:layout_height="15dp"
         android:background="#042BFD"
         android:rotation="270"
         android:rotationX="-360"
@@ -217,5 +184,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/version"
+        android:layout_width="18dp"
+        android:layout_height="16dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/circle_texta"
+        android:gravity="center"
+        android:text="A"
+        android:textColor="@android:color/white"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/type"
+        android:layout_width="18dp"
+        android:layout_height="17dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/circle_textv"
+        android:gravity="center"
+        android:text="V"
+        android:textColor="@android:color/white"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

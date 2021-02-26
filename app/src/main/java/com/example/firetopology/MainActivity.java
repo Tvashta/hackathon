@@ -38,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     static ArrayList<Integer> order = new ArrayList<>();
     static BiMap<String, Integer> map = new BiMap<>();
-
+    static ArrayList<Integer> loops = new ArrayList<>();
+    static ArrayList<Integer> loop = new ArrayList<>();
     public static class BiMap<K, V> {
         HashMap<K, V> map = new HashMap<>();
         HashMap<V, K> inversedMap = new HashMap<>();
@@ -93,14 +94,31 @@ public class MainActivity extends AppCompatActivity {
         return -1;
     }
 
-    static void dfs(boolean[] visited, int v, ArrayList<ArrayList<Integer>> graph) {
+    static boolean dfs(boolean[] visited, int v, ArrayList<ArrayList<Integer>> graph, int p) {
         visited[v] = true;
         order.add(v);
         for (Integer i : graph.get(v)) {
             if (i != null && !visited[i])
-                dfs(visited, i, graph);
+            {
+                if(dfs(visited, i, graph,v)) return true;
+            }
+            else if(i!=null&&i!=p)
+                return true;
+        }
+        return false;
+    }
+    static int loopStart=-1;
+    static void getStart(boolean[] visited, int v, ArrayList<ArrayList<Integer>> graph){
+        visited[v]=true;
+        for (Integer i : graph.get(v)) {
+            if(i==null)loopStart=v;
+            else{
+                if(!visited[i])
+                    getStart(visited,i,graph);
+            }
         }
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
         layoutManager.setJustifyContent(JustifyContent.FLEX_START);
         recyclerView.setLayoutManager(layoutManager);
         hops = findViewById(R.id.hops);
-        AlertDialog alertDialog = new AlertDialog.Builder(this).create(); //Read Update
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setTitle("Number of Hops");
 
         hops.setOnClickListener(new View.OnClickListener() {
@@ -125,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
         });
         try {
             if (nodesList.size() == 0) {
-                InputStream is = getResources().openRawResource(R.raw.book1);
+                InputStream is = getResources().openRawResource(R.raw.book2);
                 BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
                 String line = br.readLine();
                 int v = 0;
@@ -150,7 +168,23 @@ public class MainActivity extends AppCompatActivity {
                 }
                 start = max(start, 0);
                 boolean[] visited = new boolean[v];
-                dfs(visited, start, graph);
+                if(dfs(visited, start, graph,-1)){
+                    loop.add(0);
+                    loops.add(0);
+                }
+                for(int i=0;i<v;i++){
+                    if(!visited[i]){
+                        int s=order.size();
+                        loops.add(s);
+                        loopStart=-1;
+                        boolean vis1[]=visited.clone();
+                        getStart(vis1,i,graph);
+                        if(loopStart==-1)loopStart=i;
+                        if(dfs(visited, loopStart, graph,-1))loop.add(s);
+                    Log.d("DFS", String.valueOf(i));
+                    }
+                }
+
                 for (int i = 0; i < order.size(); i++) {
                     Node n = new Node(map.getKey(order.get(i)).substring(9), nodes.get(order.get(i)).split(",")[6], nodes.get(order.get(i)).split(",")[7], nodes.get(order.get(i)).split(",")[8], nodes.get(order.get(i)).split(",")[13], nodes.get(order.get(i)).split(",")[18], nodes.get(order.get(i)).split(",")[19], nodes.get(order.get(i)).split(",")[1], nodes.get(order.get(i)).split(",")[2], nodes.get(order.get(i)).split(",")[3], nodes.get(order.get(i)).split(",")[4]);
                     nodesList.add(n);

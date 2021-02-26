@@ -2,6 +2,7 @@ package com.example.firetopology;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -18,7 +20,6 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView mac, version, modeType, nupa, nupb, usba, usbb;
         public Button up, down, left, right, divleft, divright;
-
         public ViewHolder(View itemView) {
             super(itemView);
             mac = (TextView) itemView.findViewById(R.id.macadd);
@@ -101,19 +102,44 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
         USBB.setText(node.getUSBB());
 
         if (position % 3 == 0) {
-            holder.left.setVisibility(View.GONE);
-            holder.down.setVisibility(View.GONE);
-            holder.divleft.setVisibility(View.GONE);
+            holder.left.setVisibility(View.INVISIBLE);
+            holder.down.setVisibility(View.INVISIBLE);
+            holder.divleft.setVisibility(View.INVISIBLE);
             holder.right.setVisibility(View.VISIBLE);
             holder.up.setVisibility(View.VISIBLE);
             holder.divright.setVisibility(View.VISIBLE);
+            Log.d("Holder", String.valueOf(MainActivity.loops));
+            if(MainActivity.loops.contains(position)){
+                if(!MainActivity.loop.contains(position))
+                    holder.up.setVisibility(View.INVISIBLE);
+            }
+            else if(MainActivity.loops.contains(position+3)){
+                holder.divright.setVisibility(View.INVISIBLE);
+
+            }
+            if(MainActivity.loops.contains(position+1)){
+                holder.right.setVisibility(View.INVISIBLE);
+            }
+
         } else if (position % 3 == 1) {
-            holder.up.setVisibility(View.GONE);
+            holder.up.setVisibility(View.INVISIBLE);
             holder.down.setVisibility(View.GONE);
             holder.right.setVisibility(View.VISIBLE);
             holder.left.setVisibility(View.VISIBLE);
             holder.divright.setVisibility(View.VISIBLE);
             holder.divleft.setVisibility(View.VISIBLE);
+            if(MainActivity.loops.contains(position+2)){
+                holder.divright.setVisibility(View.INVISIBLE);
+                holder.divleft.setVisibility(View.INVISIBLE);
+            }
+            else if(MainActivity.loops.contains(position)){
+                if(MainActivity.loop.contains(position))
+                    holder.up.setVisibility(View.VISIBLE);
+                holder.left.setVisibility(View.INVISIBLE);
+            }
+            if(MainActivity.loops.contains(position+1)){
+                holder.right.setVisibility(View.INVISIBLE);
+            }
         } else {
             holder.right.setVisibility(View.GONE);
             holder.up.setVisibility(View.GONE);
@@ -121,7 +147,20 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
             holder.left.setVisibility(View.VISIBLE);
             holder.down.setVisibility(View.VISIBLE);
             holder.divleft.setVisibility(View.VISIBLE);
+            if(MainActivity.loops.contains(position+1)){
+                holder.divright.setVisibility(View.INVISIBLE);
+                holder.divleft.setVisibility(View.INVISIBLE);
+                holder.down.setVisibility(View.INVISIBLE);
+            }
+            else if(MainActivity.loops.contains(position)){
+                if(MainActivity.loop.contains(position))
+                    holder.up.setVisibility(View.VISIBLE);
+                holder.left.setVisibility(View.INVISIBLE);
+
+            }
         }
+        if(position==nodes.size()-1)
+            holder.right.setVisibility(View.INVISIBLE);
 
     }
 

@@ -110,8 +110,7 @@
     <Button
         android:id="@+id/downbtn"
         android:layout_width="21dp"
-        android:layout_height="15dp"
-        android:background="#042BFD"
+        android:layout_height="3dp"
         android:rotation="270"
         android:rotationX="-360"
         android:rotationY="-360"
@@ -125,8 +124,7 @@
     <Button
         android:id="@+id/rightbtn"
         android:layout_width="21dp"
-        android:layout_height="9dp"
-        android:background="#042BFD"
+        android:layout_height="3dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -137,8 +135,7 @@
     <Button
         android:id="@+id/upbtn"
         android:layout_width="21dp"
-        android:layout_height="9dp"
-        android:background="#042BFD"
+        android:layout_height="3dp"
         android:rotation="270"
         android:rotationX="-360"
         android:rotationY="-360"
@@ -152,8 +149,7 @@
     <Button
         android:id="@+id/leftbtn"
         android:layout_width="21dp"
-        android:layout_height="9dp"
-        android:background="#042BFD"
+        android:layout_height="3dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -163,9 +159,9 @@
 
     <Button
         android:id="@+id/divleft"
-        android:layout_width="70dp"
-        android:layout_height="9dp"
-        android:background="#042BFD"
+        android:layout_width="68dp"
+        android:layout_height="3dp"
+        android:background="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -175,9 +171,9 @@
 
     <Button
         android:id="@+id/divright"
-        android:layout_width="70dp"
-        android:layout_height="9dp"
-        android:background="#042BFD"
+        android:layout_width="68dp"
+        android:layout_height="3dp"
+        android:background="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"

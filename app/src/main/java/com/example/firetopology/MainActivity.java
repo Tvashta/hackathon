@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-        return -1;
+        return 0;
     }
 
     static boolean dfs(boolean[] visited, int v, ArrayList<ArrayList<Integer>> graph, int p) {
@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
         hops.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                alertDialog.setMessage("From " + nodesList.get(p1).getMAC() + " to " + nodesList.get(p2).getMAC() + "\n\t\tVia Port A: " + bfs(p1, p2, 0) + "\n\t\tVia Port B: " + bfs(p1, p2, 1) + "\nFrom " + nodesList.get(p2).getMAC() + " to " + nodesList.get(p1).getMAC() + "\n\t\tVia Port A: " + bfs(p2, p1, 0) + "\n\t\tVia Port B: " + bfs(p2, p1, 1));
+                alertDialog.setMessage("From " + nodesList.get(p1).getMAC() + " to " + nodesList.get(p2).getMAC() + "\n\t\tVia Port A: " + (bfs(p1, p2, 0)-1) + "\n\t\tVia Port B: " + (bfs(p1, p2, 1) -1)+ "\nFrom " + nodesList.get(p2).getMAC() + " to " + nodesList.get(p1).getMAC() + "\n\t\tVia Port A: " + (bfs(p2, p1, 0)-1) + "\n\t\tVia Port B: " + (bfs(p2, p1, 1)-1));
                 alertDialog.show();
             }
         });

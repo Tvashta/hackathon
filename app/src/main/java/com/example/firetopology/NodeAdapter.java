@@ -2,7 +2,6 @@ package com.example.firetopology;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +10,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -21,7 +18,7 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView mac, version, modeType, nupa, nupb, usba, usbb, port1,port2;
-        public Button up, down, left, right, divleft, divright;
+        public Button left, right, upleft, upright,middle,downleft, downright;
         public ViewHolder(View itemView) {
             super(itemView);
             mac = (TextView) itemView.findViewById(R.id.macadd);
@@ -31,14 +28,15 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
             nupb = itemView.findViewById(R.id.nupb);
             usba = itemView.findViewById(R.id.usba);
             usbb = itemView.findViewById(R.id.usbb);
-            up = itemView.findViewById(R.id.upbtn);
-            down = itemView.findViewById(R.id.downbtn);
             left = itemView.findViewById(R.id.leftbtn);
             right = itemView.findViewById(R.id.rightbtn);
-            divleft = itemView.findViewById(R.id.divleft);
-            divright = itemView.findViewById(R.id.divright);
+            upleft = itemView.findViewById(R.id.divupleft);
+            upright = itemView.findViewById(R.id.divupright);
             port1=itemView.findViewById(R.id.port1);
             port2=itemView.findViewById(R.id.port2);
+            middle = itemView.findViewById(R.id.divmiddle);
+            downleft = itemView.findViewById(R.id.divleftdown);
+            downright = itemView.findViewById(R.id.divrightdown);
         }
 
         @Override
@@ -139,41 +137,63 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
 
         if (position % 3 == 0) {
             holder.left.setVisibility(View.INVISIBLE);
-            holder.down.setVisibility(View.INVISIBLE);
-            holder.divleft.setVisibility(View.INVISIBLE);
+            holder.upleft.setVisibility(View.INVISIBLE);
+            holder.upright.setVisibility(View.VISIBLE);
             holder.right.setVisibility(View.VISIBLE);
-            holder.up.setVisibility(View.VISIBLE);
-            holder.divright.setVisibility(View.VISIBLE);
+            holder.middle.setVisibility(View.INVISIBLE);
+            holder.downleft.setVisibility(View.INVISIBLE);
+            holder.downright.setVisibility(View.VISIBLE);
+
             if(modeB.equalsIgnoreCase("Fiber")) {
-                if(holder.up.getText().toString().equalsIgnoreCase("B"))
+                if(holder.port1.getText().toString().equalsIgnoreCase("B")) {
                     holder.left.setBackgroundColor(Color.parseColor("#FFF200"));
-                else
+                    holder.middle.setBackgroundColor(Color.parseColor("#FFF200"));
+                    holder.upright.setBackgroundColor(Color.parseColor("#FFF200"));
+                }
+                else {
                     holder.right.setBackgroundColor(Color.parseColor("#FFF200"));
+                    holder.upright.setBackgroundColor(Color.parseColor("#FFF200"));
+                }
             } else {
-                if(holder.port1.getText().toString().equalsIgnoreCase("B"))
-                    holder.up.setBackgroundColor(Color.parseColor("#000000"));
-                else
+                if(holder.port1.getText().toString().equalsIgnoreCase("B")) {
+                    holder.left.setBackgroundColor(Color.parseColor("#000000"));
+                    holder.middle.setBackgroundColor(Color.parseColor("#000000"));
+                    holder.upright.setBackgroundColor(Color.parseColor("#000000"));
+                }
+                else {
                     holder.right.setBackgroundColor(Color.parseColor("#000000"));
+                    holder.upright.setBackgroundColor(Color.parseColor("#000000"));
+                }
 
             }
             if(modeA.equalsIgnoreCase("Fiber")) {
-                if(holder.port1.getText().toString().equalsIgnoreCase("A"))
-                    holder.up.setBackgroundColor(Color.parseColor("#FFF200"));
-                else
+                if(holder.port1.getText().toString().equalsIgnoreCase("A")) {
+                    holder.left.setBackgroundColor(Color.parseColor("#FFF200"));
+                    holder.middle.setBackgroundColor(Color.parseColor("#FFF200"));
+                    holder.upright.setBackgroundColor(Color.parseColor("#FFF200"));
+                }
+                else {
                     holder.right.setBackgroundColor(Color.parseColor("#FFF200"));
+                    holder.upright.setBackgroundColor(Color.parseColor("#FFF200"));
+                }
             } else {
-                if(holder.port1.getText().toString().equalsIgnoreCase("A"))
-                    holder.up.setBackgroundColor(Color.parseColor("#000000"));
-                else
+                if(holder.port1.getText().toString().equalsIgnoreCase("A")) {
+                    holder.left.setBackgroundColor(Color.parseColor("#000000"));
+                    holder.middle.setBackgroundColor(Color.parseColor("#000000"));
+                    holder.upright.setBackgroundColor(Color.parseColor("#000000"));
+                }
+                else {
                     holder.right.setBackgroundColor(Color.parseColor("#000000"));
+                    holder.upright.setBackgroundColor(Color.parseColor("#000000"));
+                }
             }
             Log.d("Holder", String.valueOf(MainActivity.loops));
             if(MainActivity.loops.contains(position)){
                 if(!MainActivity.loop.contains(position))
-                    holder.up.setVisibility(View.INVISIBLE);
+                    holder.left.setVisibility(View.INVISIBLE);
             }
             else if(MainActivity.loops.contains(position+3)){
-                holder.divright.setVisibility(View.INVISIBLE);
+                //holder.divright.setVisibility(View.INVISIBLE);
 
             }
             if(MainActivity.loops.contains(position+1)){
@@ -182,40 +202,58 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
 
         } else if (position % 3 == 1) {
             if(modeA.equalsIgnoreCase("Fiber")) {
-                if(holder.port1.getText().toString().equalsIgnoreCase("A"))
+                if(holder.port1.getText().toString().equalsIgnoreCase("A")) {
                     holder.left.setBackgroundColor(Color.parseColor("#FFF200"));
-                else
+                    holder.upleft.setBackgroundColor(Color.parseColor("#FFF200"));
+                }
+                else {
                     holder.right.setBackgroundColor(Color.parseColor("#FFF200"));
+                    holder.upright.setBackgroundColor(Color.parseColor("#FFF200"));
+                }
             } else {
-                if(holder.port1.getText().toString().equalsIgnoreCase("A"))
+                if(holder.port1.getText().toString().equalsIgnoreCase("A")) {
                     holder.left.setBackgroundColor(Color.parseColor("#000000"));
-                else
+                    holder.upleft.setBackgroundColor(Color.parseColor("#000000"));
+                }
+                else {
                     holder.right.setBackgroundColor(Color.parseColor("#000000"));
+                    holder.upright.setBackgroundColor(Color.parseColor("#000000"));
+                }
             }
             if(modeB.equalsIgnoreCase("Fiber")) {
-                if(holder.port1.getText().toString().equalsIgnoreCase("B"))
+                if(holder.port1.getText().toString().equalsIgnoreCase("B")) {
                     holder.left.setBackgroundColor(Color.parseColor("#FFF200"));
-                else
+                    holder.upleft.setBackgroundColor(Color.parseColor("#FFF200"));
+                }
+                else {
                     holder.right.setBackgroundColor(Color.parseColor("#FFF200"));
+                    holder.upright.setBackgroundColor(Color.parseColor("#FFF200"));
+                }
             } else {
                 if(holder.port1.getText().toString().equalsIgnoreCase("B"))
+                {
                     holder.left.setBackgroundColor(Color.parseColor("#000000"));
-                else
-                    holder.right.setBackgroundColor(Color.parseColor("#000000"));
+                    holder.upleft.setBackgroundColor(Color.parseColor("#000000"));
+                }
+                else{
+                    holder.right.setBackgroundColor(Color.parseColor("#FFF200"));
+                    holder.upright.setBackgroundColor(Color.parseColor("#FFF200"));
+                }
             }
-            holder.up.setVisibility(View.INVISIBLE);
-            holder.down.setVisibility(View.GONE);
             holder.right.setVisibility(View.VISIBLE);
             holder.left.setVisibility(View.VISIBLE);
-            holder.divright.setVisibility(View.VISIBLE);
-            holder.divleft.setVisibility(View.VISIBLE);
+            holder.middle.setVisibility(View.INVISIBLE);
+            holder.upleft.setVisibility(View.VISIBLE);
+            holder.downright.setVisibility(View.VISIBLE);
+            holder.downleft.setVisibility(View.VISIBLE);
+
             if(MainActivity.loops.contains(position+2)){
-                holder.divright.setVisibility(View.INVISIBLE);
-                holder.divleft.setVisibility(View.INVISIBLE);
+//                holder.divright.setVisibility(View.INVISIBLE);
+//                holder.divleft.setVisibility(View.INVISIBLE);
             }
             else if(MainActivity.loops.contains(position)){
-                if(MainActivity.loop.contains(position))
-                    holder.up.setVisibility(View.VISIBLE);
+//                if(MainActivity.loop.contains(position))
+//                    holder.up.setVisibility(View.VISIBLE);
                 holder.left.setVisibility(View.INVISIBLE);
             }
             if(MainActivity.loops.contains(position+1)){
@@ -223,49 +261,65 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
             }
         } else {
             if(modeA.equalsIgnoreCase("Fiber")) {
-                if(holder.port1.getText().toString().equalsIgnoreCase("A"))
+                if(holder.port1.getText().toString().equalsIgnoreCase("A")) {
                     holder.left.setBackgroundColor(Color.parseColor("#FFF200"));
-                else
-                    holder.down.setBackgroundColor(Color.parseColor("#FFF200"));
+                    holder.upleft.setBackgroundColor(Color.parseColor("#FFF200"));
+                }
+                else {
+                    holder.right.setBackgroundColor(Color.parseColor("#FFF200"));
+                    holder.upright.setBackgroundColor(Color.parseColor("#FFF200"));
+                }
             } else {
-                if(holder.port1.getText().toString().equalsIgnoreCase("A"))
+                if(holder.port1.getText().toString().equalsIgnoreCase("A")) {
                     holder.left.setBackgroundColor(Color.parseColor("#000000"));
-                else
-                    holder.down.setBackgroundColor(Color.parseColor("#000000"));
+                    holder.upleft.setBackgroundColor(Color.parseColor("#000000"));
+                }
+                else {
+                    holder.right.setBackgroundColor(Color.parseColor("#000000"));
+                    holder.upright.setBackgroundColor(Color.parseColor("#000000"));
+                }
             }
             if(modeB.equalsIgnoreCase("Fiber")) {
-                if(holder.port1.getText().toString().equalsIgnoreCase("B"))
+                if(holder.port1.getText().toString().equalsIgnoreCase("B")) {
                     holder.left.setBackgroundColor(Color.parseColor("#FFF200"));
-                else
-                    holder.down.setBackgroundColor(Color.parseColor("#FFF200"));
+                    holder.upleft.setBackgroundColor(Color.parseColor("#FFF200"));
+                }
+                else {
+                    holder.right.setBackgroundColor(Color.parseColor("#FFF200"));
+                    holder.upright.setBackgroundColor(Color.parseColor("#FFF200"));
+                }
             } else {
-                if(holder.port1.getText().toString().equalsIgnoreCase("B"))
+                if(holder.port1.getText().toString().equalsIgnoreCase("B")) {
                     holder.left.setBackgroundColor(Color.parseColor("#000000"));
-                else
-                    holder.down.setBackgroundColor(Color.parseColor("#000000"));
+                    holder.upleft.setBackgroundColor(Color.parseColor("#000000"));
+                }
+                else {
+                    holder.right.setBackgroundColor(Color.parseColor("#000000"));
+                    holder.upright.setBackgroundColor(Color.parseColor("#000000"));
+                }
             }
-            holder.right.setVisibility(View.GONE);
-            holder.up.setVisibility(View.GONE);
-            holder.divright.setVisibility(View.GONE);
+            holder.right.setVisibility(View.VISIBLE);
             holder.left.setVisibility(View.VISIBLE);
-            holder.down.setVisibility(View.VISIBLE);
-            holder.divleft.setVisibility(View.VISIBLE);
+            holder.middle.setVisibility(View.INVISIBLE);
+            holder.upleft.setVisibility(View.VISIBLE);
+            holder.upright.setVisibility(View.VISIBLE);
+            holder.downright.setVisibility(View.VISIBLE);
+            holder.downleft.setVisibility(View.VISIBLE);
+
             if(MainActivity.loops.contains(position+1)){
-                holder.divright.setVisibility(View.INVISIBLE);
-                holder.divleft.setVisibility(View.INVISIBLE);
-                holder.down.setVisibility(View.INVISIBLE);
+//                holder.divright.setVisibility(View.INVISIBLE);
+//                holder.divleft.setVisibility(View.INVISIBLE);
             }
             else if(MainActivity.loops.contains(position)){
-                if(MainActivity.loop.contains(position))
-                    holder.up.setVisibility(View.VISIBLE);
+//                if(MainActivity.loop.contains(position))
+//                    holder.up.setVisibility(View.VISIBLE);
                 holder.left.setVisibility(View.INVISIBLE);
 
             }
         }
         if(position==MainActivity.nodesList.size()-1) {
             holder.right.setVisibility(View.INVISIBLE);
-            holder.divright.setVisibility(View.INVISIBLE);
-            holder.down.setVisibility(View.VISIBLE);
+            //holder.divright.setVisibility(View.INVISIBLE);
         }
 
 

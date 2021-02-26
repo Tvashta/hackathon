@@ -71,23 +71,28 @@ public class NodeAdapter extends RecyclerView.Adapter<NodeAdapter.ViewHolder> {
         }
         String neighbourA = node.getMAC_Neighbour_A().substring(9);
         String neighbourB = node.getMAC_Neighbour_B().substring(9);
+        int f=1;
         if(position>0 && MainActivity.nodesList.get(position - 1).getMAC().equals(neighbourA))
         {
             holder.port1.setText("A");
+            f=1;
         }
         else if(position<MainActivity.nodesList.size()-1 && MainActivity.nodesList.get(position + 1).getMAC().equals(neighbourA))
         {
             holder.port2.setText("A");
+            f=0;
         }
         if(position>0 && MainActivity.nodesList.get(position - 1).getMAC().equals(neighbourB))
         {
             holder.port1.setText("B");
+            f=0;
         }
         else if(position<MainActivity.nodesList.size()-1 && MainActivity.nodesList.get(position + 1).getMAC().equals(neighbourB))
         {
             holder.port2.setText("B");
+            f=1;
         }
-
+        MainActivity.lr.add(f);
 
 
         TextView type = holder.modeType;

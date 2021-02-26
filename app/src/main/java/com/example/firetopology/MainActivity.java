@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     static ArrayList<Integer> order = new ArrayList<>();
     static ArrayList<Integer> loops = new ArrayList<>();
     static ArrayList<Integer> loop = new ArrayList<>();
+    static ArrayList<Integer> lr = new ArrayList<>();
     public static class BiMap<K, V> {
         HashMap<K, V> map = new HashMap<>();
         HashMap<V, K> inversedMap = new HashMap<>();
@@ -76,8 +77,11 @@ public class MainActivity extends AppCompatActivity {
             count++;
             if (u == v) return count;
             Node node = nodesList.get(u);
+            Log.d("LR", lr.get(u)+"");
             if (dir == 0) {
-                String ma=node.getMAC_Neighbour_B();
+                String ma=node.getMAC_Neighbour_B();;
+                if(lr.get(u)==0)
+                    ma=node.getMAC_Neighbour_A();
                 if(ma.length()>9)
                     ma=ma.substring(9);
                 Integer n = map1.get(ma);
@@ -87,7 +91,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             } else {
                 String ma=node.getMAC_Neighbour_A();
-                Log.d("MACA", node.getMAC_Neighbour_A());
+                if(lr.get(u)==0)
+                    ma=node.getMAC_Neighbour_B();
                 if(ma.length()>9)
                     ma=ma.substring(9);
                 Integer n = map1.get(ma);
@@ -144,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
         hops.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                alertDialog.setMessage("From " + nodesList.get(p1).getMAC() + " to " + nodesList.get(p2).getMAC() + "\n\t\tVia Port A: " + (bfs(p1, p2, 0)-1) + "\n\t\tVia Port B: " + (bfs(p1, p2, 1) -1)+ "\nFrom " + nodesList.get(p2).getMAC() + " to " + nodesList.get(p1).getMAC() + "\n\t\tVia Port A: " + (bfs(p2, p1, 0)-1) + "\n\t\tVia Port B: " + (bfs(p2, p1, 1)-1));
+                alertDialog.setMessage("From " + nodesList.get(p1).getMAC() + " to " + nodesList.get(p2).getMAC() + "\n\t\tRight: " + (bfs(p1, p2, 0)-1) + "\n\t\tLeft: " + (bfs(p1, p2, 1) -1)+ "\nFrom " + nodesList.get(p2).getMAC() + " to " + nodesList.get(p1).getMAC() + "\n\t\tRight: " + (bfs(p2, p1, 0)-1) + "\n\t\tLeft: " + (bfs(p2, p1, 1)-1));
                 alertDialog.show();
             }
         });
